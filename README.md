@@ -1,0 +1,1 @@
+[Технічне завдання](https://docs.google.com/document/d/14M_ZjpNbP-VYtfl0_1GGTR0CBhmdtlfv6iX_hOhYeYg/edit?usp=sharing)

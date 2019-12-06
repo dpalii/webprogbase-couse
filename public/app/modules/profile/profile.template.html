@@ -1,0 +1,84 @@
+<div ng-controller='profileController'> 
+  <div class="container">
+    <div class="row">
+        <div class="col-sm-auto">
+            <img class="img-thumbnail mb-3 profimg" src="{{user.avaUrl}}" alt="Фото профиля"/>
+        </div>
+        <div class="col">
+        <div class="btn-group" id="control" role="group">
+            <button type="button" id="edit" data-toggle="modal" data-target="#editModal" class="btn btn-success btn-sm my-2">Редактировать</button>
+            <button type="button" id="delete" data-toggle="modal" data-target="#deleteModal" class="btn btn-danger btn-sm my-2">Удалить</button>
+        </div>
+        <p class="text">
+            <b>Логин: </b>{{user.login}}<br/>
+            <b>Имя: </b>{{user.fullname}}<br/>
+            <b>Роль: </b>{{user.role}}<br/>
+            <b>Дата регистрации: </b>{{user.registeredAt}} 
+        </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p class="text">
+                <b>О себе:</b><br/>
+                {{user.bio}}
+            </p>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editModal" id="editModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Редактировать</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="updateForm" class="needs-validation" novalidate>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="username">Имя</label>
+                    <input type="text" class="form-control" name="fullname" ng-model="updUser.fullname" placeholder="Ваше имя">
+                </div>
+                <div class="form-group">
+                  <label for="bio">О себе</label>
+                  <textarea class="form-control" name="bio" ng-model="updUser.bio" id="bio" placeholder="О себе"></textarea>
+                </div>
+                <p class="text">Фото профиля</p>
+                <div class="custom-file form-group">
+                  <input type="file" class="custom-file-input" file-model="avatar" name="avatar" id="avatar">
+                  <label class="custom-file-label" id="chosenPhoto" for="avatar">{{fakepath}}</label>
+                </div>
+                <div class="form-group mt-3">
+                  <div ng-if="editErr" class="alert alert-danger">{{editErr}}</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Отмена</button>
+              <input type="submit" ng-click="update()" value="Подтвердить" class="btn btn-success"></button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteModal" id="deleteModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Подтвердите удаление</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="text">Вы уверены?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Нет</button>
+          <button type="button" ng-click="delete()" class="btn btn-success">Да</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

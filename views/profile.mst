@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <title>Modern - users</title>
+  {{> head }}
+  <script src="/javascripts/profile.js"></script>
+</head>
+<body>
+    {{> header}}
+  <div class="window">
+    <div class="contents" id="contents">
+        
+    </div>
+</div>
+{{> footer}}
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editModal" id="editModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Редактировать</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="updateForm" class="needs-validation" novalidate>
+          <div class="modal-body">
+              <div class="form-group">
+                  <label for="username">Имя</label>
+                  <input type="text" class="form-control" name="fullname" id="fullname" placeholder="Ваше имя">
+              </div>
+              <div class="form-group">
+                <label for="bio">О себе</label>
+                <input type="textarea" class="form-control" name="bio" id="bio" placeholder="О себе">
+              </div>
+              <p class="text">Фото профиля</p>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" name="avatar" id="avatar" required>
+                <label class="custom-file-label" id="chosenPhoto" for="avatar">Выберите фото...</label>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+            <button type="button" id="confirmUpdate" class="btn btn-primary">Подтвердить</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deleteModal" id="deleteModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Подтвердите удаление</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text">Вы уверены?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+        <button type="button" id="confirmDelete" class="btn btn-primary">Да</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

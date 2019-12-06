@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <title>Modern - {{login}}</title>
+  {{> head }}
+  <script src="/javascripts/user.js"></script>
+</head>
+<body>
+  {{> header}}
+  <div class="window">
+    <div class="contents" id="contents">
+      
+    </div>
+  </div>
+{{> footer}}
+</body>
+</html>

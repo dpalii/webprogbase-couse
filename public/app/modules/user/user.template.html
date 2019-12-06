@@ -1,0 +1,29 @@
+<div ng-controller='userController'>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-auto">
+        <img class="img-thumbnail mb-3 profimg" src="{{user.avaUrl}}" alt="Фото профиля" />
+      </div>
+      <div class="col">
+        <button type="button" id="promote" ng-show="user.role != 'admin'" ng-click="changeRole('admin')"
+          class="btn btn-primary btn-sm my-2">Дать права администратора</button>
+        <button type="button" id="demote" ng-show="user.role == 'admin'" ng-click="changeRole('standart')"
+          class="btn btn-primary btn-sm my-2">Забрать права администратора</button>
+        <p class="text">
+          <b>Логин: </b>{{user.login}}<br />
+          <b>Имя: </b>{{user.fullname}}<br />
+          <b>Роль: </b>{{user.role}}<br />
+          <b>Дата регистрации: </b>{{user.registeredAt}}
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p class="text">
+          <b>О себе:</b><br />
+          {{user.bio}}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+
+<thead class="thead-light">
+    <tr>
+    <th>Категория</th>
+    </tr>
+</thead>
+{{#categories}}
+    <tr>
+        <td><a href="/categories/{{_id}}">{{name}}</a></td>
+    </tr>
+{{/categories}}

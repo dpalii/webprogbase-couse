@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Modern API</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Modern API docs">
+    <meta name="author" content="dpalii">
+    <link rel="icon" href="/images/favicon.ico">
+</head>
+<body>
+    <h3>Version: v1</h3>
+    <h3>Resources</h3>
+    <b>Users:</b>
+    <ul>
+        <li>GET /api/v1/users - returns paginated JSON array of users. URL queries: 
+            <ul>
+                <li>limit: desired amount of entries</li>
+                <li>offset: amount of entries you want to skip</li>
+                <li>searchword: filter applied to users' logins</li>
+            </ul>
+        </li>
+        <li>GET /api/v1/users/{id} - returns JSON object that contains user with id = {id}. </li>
+        <li>POST /api/v1/users - register new user. Returns created user. Reqires such input:
+            <ul>
+                <li>username - user login</li>
+                <li>pass - user password</li>
+                <li>pass2 - password confirmation</li>                
+            </ul>
+        </li>
+        <li>PUT /api/v1/users/{id} - update user with id = {id}. Returns updated user. Pass in 'modification' object with data.</li>
+        <li>DELETE /api/v1/users/{id} - delete user with id = {id}. Returns deleted user.</li>
+    </ul>
+    <b>Products:</b>
+    <ul>
+        <li>GET /api/v1/products - returns paginated JSON array of products. URL queries: 
+            <ul>
+                <li>limit: desired amount of entries</li>
+                <li>offset: amount of entries you want to skip</li>
+                <li>searchword: filter applied to products' names</li>
+            </ul>
+        </li>
+        <li>GET /api/v1/products/{id} - returns JSON object that contains product with id = {id}. </li>
+        <li>POST /api/v1/products - create new product. Returns created product. Accepts such input:
+            <ul>
+                <li>prodname</li>
+                <li>price</li>
+                <li>prodpic</li>
+                <li>inStock</li>
+                <li>category - id of category the product relates to</li>
+            </ul>
+        </li>
+        <li>PUT /api/v1/products/{id} - update product with id = {id}. Returns updated usproducter. Pass in 'modification' object with data.</li>
+        <li>DELETE /api/v1/products/{id} - delete usproducter with id = {id}. Returns deleted product.</li>
+    </ul>
+    <b>Categories:</b>
+    <ul>
+        <li>GET /api/v1/categories - returns paginated JSON array of categories. URL queries: 
+            <ul>
+                <li>limit: desired amount of entries</li>
+                <li>offset: amount of entries you want to skip</li>
+                <li>searchword: filter applied to users' logins</li>
+            </ul>
+        </li>
+        <li>GET /api/v1/categories/{id} - returns JSON object that contains category with id = {id}. </li>
+        <li>POST /api/v1/categories - register new category. Returns created category. Reqires such input:
+            <ul>
+                <li>name</li>             
+            </ul>
+        </li>
+        <li>PUT /api/v1/categories/{id} - update category with id = {id}. Returns updated category. Pass in 'modification' object with data.</li>
+        <li>DELETE /api/v1/categories/{id} - delete category with id = {id}. Returns deleted category.</li>
+    </ul>
+    <h3>Authorization</h3>
+    <p>This API uses Basic authorization. To access data you should send authorization data with each request. All requests return current user in <b>user</b> field.</p>
+    <h3>Errors</h3>
+    <p>Errors are sent in response body in JSON format, with error message stored in <b>err</b> field. Such error codes are possible:</p>
+    <ul>
+        <li>400 - bad input data</li>
+        <li>401 - user is unauthorized</li>
+        <li>403 - user has no access to provided resource</li>
+        <li>409 - conflicting data</li>
+        <li>500 - server error</li>
+    </ul>
+</body>
+</html>

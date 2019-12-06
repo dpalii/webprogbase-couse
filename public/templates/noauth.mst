@@ -1,0 +1,12 @@
+<ul class="navbar-nav ml-auto">
+    <li class="nav-item-right active">
+    <button type="button" class="btn btn-success btn-md mr-3" data-toggle="modal" data-target="#loginModal"  id="loginBtn">
+        Вход
+    </button>
+    </li>  
+    <li class="nav-item-right active">
+    <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#registerModal" id="registerBtn">
+        Регистрация
+    </button>
+    </li> 
+</ul>

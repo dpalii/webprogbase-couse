@@ -1,0 +1,17 @@
+<nav>
+  <ul class="v justify-content-center">
+     <li class="page-item disabled" id="prev">
+      <span class="page-link" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </span>
+    </li>
+    <li class="page-item disabled"><a id="pageNum" class="page-link" href="#">{{page}} из {{pages}}</a></li>
+    <li class="page-item disabled" id="next">
+      <span class="page-link cursor-pointer" aria-label="Next" >
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </span>
+    </li>
+  </ul>
+</nav>

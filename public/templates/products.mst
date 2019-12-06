@@ -1,0 +1,10 @@
+{{#products}}
+    <tr>
+        <td class="fit block"><img class="img-thumbnail profimg" src="{{prodpic}}"" alt="{{prodname}}"/></td>
+        <td class="block"><a href="/products/{{_id}}"><h3>{{prodname}}</h3></a>
+            <div class="input-group">
+                <button class="btn btn-outline-success btn-lg" id="search" type="button"><i class="material-icons align-top">shopping_cart</i><span class="align-top"> {{price}} грн</span></button>
+            </div>
+        </td>
+    </tr>
+{{/products}}

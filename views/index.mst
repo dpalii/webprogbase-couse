@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <title>Modern - home</title>
+  {{> head}}
+  </head>
+<body>   
+  {{> header}}
+  <div class="window">
+    <div class="contents" id="contents">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+              <h5 align="center">Веб-сайт салона штор "Модерн"</h5>
+              У нас вы можете оформить Ваше окно от начала до конца.<br/>
+              В нашем магазине Вы найдете:
+              <ul>
+              <li>тюль и шторы;</li>
+              <li>ролеты и римские шторы;</li>
+              <li>карнизы;</li>
+              </ul>
+              и многое другое!
+          </div>
+          <div class="col-md-auto">
+              <img src="/images/home.jpg" class="img-thumbnail" alt="Фото штор"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{> footer}}
+</body>
+</html>

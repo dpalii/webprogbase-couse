@@ -1,0 +1,15 @@
+
+<thead class="thead-light">
+    <tr>
+    <th>Пользователь</th>
+    <th>Полное имя</th>
+    <th>Дата регистрации</th>
+    </tr>
+</thead>
+{{#users}}
+    <tr>
+        <td><a href="/users/{{_id}}">{{login}}</a></td>
+        <td>{{fullname}}</td>
+        <td>{{registeredAt}}</td>
+    </tr>
+{{/users}}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <title>Modern - users</title>
+  {{> head }}
+  <script src="/javascripts/users.js"></script>
+</head>
+<body>
+  {{> header}}
+  <div class="window">
+    <div class="contents">
+      <form class="form mb-3" id="searchForm">
+        <h3>Пользователи</h3>
+        <div class="input-group">
+          <input type="text" name="searchword" class="form-control" placeholder="Поиск" aria-label="Поиск" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <button class="btn btn-primary" id="search" type="button">Найти</button>
+          </div>
+        </div>
+        <small id="searchHelp" class="form-text text-muted"></small>
+      </form>
+      <table class="table" id="userList">
+      </table>
+      <div id="pagination">
+      </div>
+    </div>
+  </div>
+{{> footer}}
+</body>
+</html>

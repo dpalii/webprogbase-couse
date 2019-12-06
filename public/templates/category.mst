@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+        <p class="text">
+            <h3>Категория: {{name}}</h3>
+        </p>
+        <div class="btn-group d-none mb-3" id="control" role="group">
+            <button type="button" id="create" data-toggle="modal" data-target="#createModal" class="btn btn-primary btn-sm my-2">Добавить позицию</button>
+            <button type="button" id="edit" data-toggle="modal" data-target="#editModal" class="btn btn-success btn-sm my-2">Редактировать</button>
+            <button type="button" id="delete" data-toggle="modal" data-target="#deleteModal" class="btn btn-danger btn-sm my-2">Удалить</button>
+        </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table mt-2">
+            <thead class="thead-light">
+                <tr><th colspan="2" class="d-flex justify-content-center">Товары:</th></tr>
+            </thead>
+                {{#products}}
+                <tr>
+                   <td><a href="/products/{{_id}}">{{prodname}}</a></td>
+                </tr>
+                {{/products}}
+            </table>
+        </div>
+    </div>
+</div>

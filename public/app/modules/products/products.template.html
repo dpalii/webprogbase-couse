@@ -1,0 +1,110 @@
+<div ng-controller="productsController">
+    <form class="form mb-3" id="searchForm" name="searchForm">
+        <h3>Каталог:</h3>
+        <div class="input-group">
+            <input type="text" name="searchword" class="form-control" ng-model="searchinput" placeholder="Поиск"
+                aria-label="Поиск" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-primary" id="search" ng-click="setPage(1)" type="submit">Найти</button>
+            </div>
+        </div>
+        <span ng-if="searchword" class="form-text text-muted">Результаты поиска для: '{{searchword}}'.</span>
+        <div class="alert alert-danger" ng-if="totalItems == 0">Ничего не найдено.</div>
+    </form>
+    <div class="btn-group mb-3" id="control" role="group">
+        <button type="button" id="create" data-toggle="modal" data-target="#createModal"
+            class="btn btn-primary btn my-2">Добавить позицию</button>
+    </div>
+    <table class="table" id="productList" ng-show="pages > 0">
+        <tbody ng-repeat="product in products">
+            <tr>
+                <td class="fit block"><img class="img-thumbnail profimg" src="{{product.prodpic}}"" alt="
+                        {{product.prodname}}" /></td>
+                <td class="block"><a href="#!products/{{product._id}}">
+                        <h3>{{product.prodname}}</h3>
+                    </a>
+                    <div class="input-group">
+                        <button class="btn btn-outline-success btn-lg" id="search" type="button"><i
+                                class="material-icons align-top">shopping_cart</i><span class="align-top">
+                                {{product.price}}
+                                грн</span></button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <nav ng-show="pages > 0">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" id="prev" ng-show="page > 1" ng-click="prev()">
+                <span class="page-link cursor-pointer" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </span>
+            </li>
+            <li class="page-item disabled"><a id="pageNum" class="page-link" href="#">{{page}} из {{pages}}</a></li>
+            <li class="page-item" id="next" ng-show="page < pages" ng-click="next()">
+                <span class="page-link cursor-pointer" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </span>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createModal" id="createModal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Новая позиция</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="form" ng-submit="form.$valid && create()" novalidate>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="prodname">Наименование</label>
+                            <input type="text" class="form-control"
+                                ng-class="{ 'has-error': form.$submitted && form.prodname.$invalid }" name="prodname"
+                                ng-model="newprod.prodname" id="prodname" placeholder="Наименование" required>
+                        </div>
+                        <div ng-show="form.$submitted && form.prodname.$error.required" class="help-block">
+                            <small class="text-muted text-danger text-small">Product name is required</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Цена</label>
+                            <input type="number" class="form-control"
+                                ng-class="{ 'has-error': form.$submitted && form.price.$invalid }" min="0"
+                                ng-model="newprod.price" name="price" id="price" placeholder="Цена" required>
+                        </div>
+                        <div ng-show="form.$submitted && form.price.$error.required" class="help-block">
+                            <small class="text-muted text-danger text-small">Price is required</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Описание</label>
+                            <textarea class="form-control" ng-model="newprod.desc" name="desc"
+                                placeholder="Описание"></textarea>
+                        </div>
+                        <p class="text">Фото</p>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" name="prodpic" file-model="prodpic"
+                                id="prodpic">
+                            <label class="custom-file-label" id="chosenPhoto" for="prodpic">{{fakepath}}</label>
+                        </div>
+                        <div class="form-check form-check-inline mt-3">
+                            <input class="form-check-input" type="checkbox" ng-model="newprod.inStock"
+                                ng-true-value="true" ng-false-value="false" id="inStock" name="inStock">
+                            <label class="form-check-label" for="inStock">В наличии</label>
+                        </div>
+                        <div ng-if="createErr" class="alert alert-danger">{{createErr}}</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Отмена</button>
+                        <button type="submit" id="confirmCreate" class="btn btn-success">Подтвердить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <title>Modern - about</title>
+  {{> head }}
+</head>
+<body>
+  {{> header}}
+  <div class="window">
+    <div class="contents">
+      <table class="table">
+        <thead class="thead-light">
+          <tr>
+              <th colspan="2">Сведения о компании:</th>
+          </tr>
+        </thead>
+        <tr>
+            <td>Контактное лицо:</td>
+            <td>Анастасия</td>
+        </tr>
+        <tr>
+            <td>Номер телефона:</td>
+            <td>+380960000000</td>
+        </tr>
+        <tr>
+            <td>Адрес:</td>
+            <td>Украина, Киев, переулок Ковальский, 5</td>
+        </tr>
+      </table>
+    </div>
+</div>
+{{> footer}}
+</body>
+</html>

@@ -4,6 +4,7 @@ angular.
         templateUrl: 'app/modules/products/products.template.html'
     }).
     controller('productsController', ['$scope', '$http', function ($scope, $http) {
+        let user = JSON.parse(localStorage.getItem('user'));
         $scope.limit = 5;
         $scope.offset = 0;
         $scope.searchword = '';
@@ -12,37 +13,22 @@ angular.
         $scope.pages = 1;
         $scope.maxSize = 5;
         $scope.setPage = setPage;
-        $scope.fakepath = 'Выберите фото...'
         setPage(1);
-        $scope.newprod = {
-            prodname: 'product',
-            price: 0,
-            inStock: false,
-            desc: ''
+        $scope.addToCart = function (product) {
+            $http.post('/api/v1/links/', JSON.stringify({ productId: product._id }))
+                .then(data => {
+                    $scope.lastPurchase = product.prodname;
+                    $("#purchaseNotification").toast('show');
+                })
+                .catch(err => {
+                    console.log(err);
+                });
         }
         $scope.next = function () {
             if ($scope.page < $scope.pages) setPage($scope.page + 1);
         }
         $scope.prev = function () {
             if ($scope.page > 1) setPage($scope.page - 1);
-        }
-        $scope.create = function () {
-            var fd = new FormData();
-            for (prop in $scope.newprod) fd.append(prop, $scope.newprod[prop]);
-            fd.append('prodpic', $scope.prodpic);
-            $http.post('/api/v1/products', fd, {
-                transformRequest: angular.identity,
-                headers: {
-                    'Content-Type': undefined
-                }
-            })
-                .then(data => {
-                    setPage(1);
-                    $("#createModal").modal('hide');
-                })
-                .catch(err => {
-                    $scope.createErr = 'Файл слишком большой';
-                });
         }
         function setPage(pageNo) {
             $scope.searchword = $scope.searchinput;

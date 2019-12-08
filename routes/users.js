@@ -3,6 +3,8 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 const user = require('../models/user.js');
+const link = require('../models/link.js');
+const comment = require('../models/comment.js');
 const accessCheck = require('../modules/passport');
 const cloudinary = require('cloudinary');
 const path = require('path');
@@ -85,8 +87,8 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), function(re
         newuser.role = req.body.role;
     }
     if (req.user._id == req.params.id) {
-        if (req.body.bio.length > 0) newuser.bio = req.body.bio;
-        if (req.body.fullname.length > 0) newuser.fullname = req.body.fullname;
+        if (req.body.bio && req.body.bio.length > 0) newuser.bio = req.body.bio;
+        if (req.body.fullname && req.body.fullname.length > 0) newuser.fullname = req.body.fullname;
             if (!req.file) 
             {
                 user.update(newuser)
@@ -136,11 +138,35 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), function
     if (req.user._id == req.params.id) next();
     else res.status(403).json({err: 'Forbidden'});
 }, function(req, res) {
-    user.delete(req.params.id)  
-        .then(data => { 
-            if (data) res.status(200).json({user: req.user, data: data});
-            else res.status(404).json({err: 'Error 404: Not Found'});
+    user.getById(req.params.id)
+        .then(data => {
+            if (data) 
+            {
+                return Promise.all([
+                    data,
+                    link.getAll(null, null, req.params.id),
+                    comment.getAll(null, null, req.params.id)
+                ]);
+            }
+            else return Promise.reject('Error 404: Not Found');
         })
-        .catch(err => res.status(500).json({err: err}));
+        .then(([data, links, comments]) => { 
+            let promises = [];
+            for (let c of comments)
+            {
+                promises.push(comment.delete(c._id));    
+            }
+            for (let l of links)
+            {
+                promises.push(link.delete(l._id));    
+            }
+            return Promise.all(promises)
+        })
+        .then(() => user.delete(req.params.id))
+        .then(data => res.status(200).json({user: req.user, data: data}))
+        .catch(err => {
+            if (err == 'Error 404: Not Found') res.status(404).json({err: err});
+            else res.status(500).json({err: err});
+        });
 });
 module.exports = router;

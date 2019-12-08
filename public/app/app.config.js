@@ -24,6 +24,9 @@ angular.
         when('/products', {
           template: '<products></products>'
         }).
+        when('/product/:id', {
+          template: '<product></product>'
+        }).
         when('/', {
           template: '<home></home>'
         }).

@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema({
     uplDate: { type: Date, required: true },
     prodpic: { type: String, required: true },
     inStock: { type: Boolean },
-    category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
     desc: { type: String }
 });
 const productModel = mongoose.model('Product', productSchema, 'products');
@@ -25,7 +25,7 @@ class Product {
 
     static getById(id) {
         let item = productModel.findOne({_id: id});
-        if (item) return item.populate('category');
+        if (item) return item.populate('category').populate('comments');
         else return undefined;
     }
     static getAll(limit, offset, searchword) {
@@ -44,7 +44,7 @@ class Product {
         return productModel.create(x);
     }
     static update(x) {
-        return productModel.findByIdAndUpdate(x._id, x, {new: true});
+        return productModel.findByIdAndUpdate(x._id, x, { new: true });
     }
     static delete(id) {
         return productModel.findByIdAndDelete(id);

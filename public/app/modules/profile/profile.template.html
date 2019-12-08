@@ -1,32 +1,66 @@
-<div ng-controller='profileController'> 
+<div ng-controller='profileController'>
   <div class="container">
     <div class="row">
-        <div class="col-sm-auto">
-            <img class="img-thumbnail mb-3 profimg" src="{{user.avaUrl}}" alt="Фото профиля"/>
-        </div>
-        <div class="col">
+      <div class="col-sm-auto">
+        <img class="img-thumbnail mb-3 profimg" src="{{user.avaUrl}}" alt="Фото профиля" />
+      </div>
+      <div class="col">
         <div class="btn-group" id="control" role="group">
-            <button type="button" id="edit" data-toggle="modal" data-target="#editModal" class="btn btn-success btn-sm my-2">Редактировать</button>
-            <button type="button" id="delete" data-toggle="modal" data-target="#deleteModal" class="btn btn-danger btn-sm my-2">Удалить</button>
+          <button type="button" id="edit" data-toggle="modal" data-target="#editModal"
+            class="btn btn-success btn-sm my-2">Редактировать</button>
+          <button type="button" id="delete" data-toggle="modal" data-target="#deleteModal"
+            class="btn btn-danger btn-sm my-2">Удалить</button>
         </div>
         <p class="text">
-            <b>Логин: </b>{{user.login}}<br/>
-            <b>Имя: </b>{{user.fullname}}<br/>
-            <b>Роль: </b>{{user.role}}<br/>
-            <b>Дата регистрации: </b>{{user.registeredAt}} 
+          <b>Логин: </b>{{user.login}}<br />
+          <b>Имя: </b>{{user.fullname}}<br />
+          <b>Роль: </b>{{user.role}}<br />
+          <b>Дата регистрации: </b>{{user.registeredAt}}<br />
+          <b class="text">О себе:</b>
+          <textarea class="form-control" readonly>
+            {{user.bio}}
+          </textarea>
         </p>
-        </div>
+      </div>
     </div>
     <div class="row">
-        <div class="col">
-            <p class="text">
-                <b>О себе:</b><br/>
-                {{user.bio}}
-            </p>
-        </div>
+      <div class="col">
+        <table class="table mt-2">
+          <thead class="thead-light">
+            <tr>
+              <th class="col-3" colspan="3">Корзина:</th>
+            </tr>
+          </thead>
+          <tbody ng-repeat="link in links">
+            <tr>
+              <td><a href="#!product/{{link.productId._id}}">{{link.productId.prodname}}</a></td>
+              <td>Цена: {{link.productId.price}} грн.</td>
+              <td><button type="button" ng-click="removeFromCart(link._id)" class="btn btn-danger btn-sm my-2">Убрать
+                  из корзины</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <nav ng-show="pages > 0">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" id="prev" ng-show="page > 1" ng-click="prev()">
+                    <span class="page-link cursor-pointer" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </span>
+                </li>
+                <li class="page-item disabled"><a id="pageNum" class="page-link" href="#">{{page}} из {{pages}}</a></li>
+                <li class="page-item" id="next" ng-show="page < pages" ng-click="next()">
+                    <span class="page-link cursor-pointer" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </span>
+                </li>
+            </ul>
+        </nav>
+      </div>
     </div>
-</div>
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editModal" id="editModal" aria-hidden="true">
+  </div>
+  <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editModal" id="editModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -36,29 +70,30 @@
           </button>
         </div>
         <form id="updateForm" class="needs-validation" novalidate>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="username">Имя</label>
-                    <input type="text" class="form-control" name="fullname" ng-model="updUser.fullname" placeholder="Ваше имя">
-                </div>
-                <div class="form-group">
-                  <label for="bio">О себе</label>
-                  <textarea class="form-control" name="bio" ng-model="updUser.bio" id="bio" placeholder="О себе"></textarea>
-                </div>
-                <p class="text">Фото профиля</p>
-                <div class="custom-file form-group">
-                  <input type="file" class="custom-file-input" file-model="avatar" name="avatar" id="avatar">
-                  <label class="custom-file-label" id="chosenPhoto" for="avatar">{{fakepath}}</label>
-                </div>
-                <div class="form-group mt-3">
-                  <div ng-if="editErr" class="alert alert-danger">{{editErr}}</div>
-                </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="username">Имя</label>
+              <input type="text" class="form-control" name="fullname" ng-model="updUser.fullname"
+                placeholder="Ваше имя">
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Отмена</button>
-              <input type="submit" ng-click="update()" value="Подтвердить" class="btn btn-success"></button>
+            <div class="form-group">
+              <label for="bio">О себе</label>
+              <textarea class="form-control" name="bio" ng-model="updUser.bio" id="bio" placeholder="О себе"></textarea>
             </div>
-          </form>
+            <p class="text">Фото профиля</p>
+            <div class="custom-file form-group">
+              <input type="file" class="custom-file-input" file-model="avatar" name="avatar" id="avatar">
+              <label class="custom-file-label" id="chosenPhoto" for="avatar">{{fakepath}}</label>
+            </div>
+            <div class="form-group mt-3">
+              <div ng-if="editErr" class="alert alert-danger">{{editErr}}</div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Отмена</button>
+            <input type="submit" ng-click="update()" value="Подтвердить" class="btn btn-success"></button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

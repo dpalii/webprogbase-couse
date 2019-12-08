@@ -8,8 +8,7 @@ const userSchema = new mongoose.Schema({
     registeredAt: { type: String, required: true },
     avaUrl: { type: String, required: true },
     isDeactivated: { type: Boolean, required: true },
-    bio: { type: String },
-    cart: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }]
+    bio: { type: String }
 });
 const userModel = mongoose.model('User', userSchema, 'users');
 
@@ -25,7 +24,9 @@ class User {
         this.isDeactivated = isDeactivated;
     }
     static getById(id) {
-        return userModel.findById(id);
+        let item = userModel.findById(id);
+        if (item) return item.populate('cart');
+        else return undefined;
     }
     static getAll(limit, offset, searchword) {
         return userModel.find({ login: { $regex: searchword, $options: 'i' } }).skip(offset).limit(limit);
@@ -58,7 +59,6 @@ class User {
         return userModel.create(newuser);
     }
     static update(x) {
-        console.log()
         return userModel.findByIdAndUpdate(x._id, x, {new: true});
     }
     static delete(id) {

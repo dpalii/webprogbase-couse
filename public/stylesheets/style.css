@@ -1,14 +1,16 @@
 .window {
-  min-height: 50%;
+  min-height: 70%;
   padding: 3px;
   background-color: rgb(228, 185, 222);
   background-image: url("../images/background.png");
   background-repeat: repeat;
 }
 body, html {
-  height: 100%;
+  min-height: 100%;
+  background-color: #f5f5f5;
 }
 .contents {
+  min-height: 70%;
   margin: auto;
   width: 1200px;
   padding: 30px;
@@ -35,4 +37,9 @@ td.fit {
 }
 .cursor-pointer {
   cursor: pointer;
+}
+.toast-custom {
+  position: fixed;
+  bottom: 0;
+  right: 0;
 }

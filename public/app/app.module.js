@@ -4,6 +4,7 @@ const modernApp = angular.module('modernApp', [
     'products',
     'user',
     'category',
+    'product',
     'categories',
     'ngRoute'
   ]);

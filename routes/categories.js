@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const category = require('../models/category.js');
+const product = require('../models/product.js');
 const accessCheck = require('../modules/passport');
 
 router.get('/', passport.authenticate('jwt', { session: false }), function(req, res) {
@@ -66,7 +67,7 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), accessCh
             let promises = [];
             for (let p of data.products)
             {
-                promises.push(product.deleteById(p._id));
+                promises.push(product.delete(p._id));    
             }
             return Promise.all(promises);
         })

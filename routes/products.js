@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 const product = require('../models/product.js');
 const category = require('../models/category.js');
+const comment = require('../models/comment.js');
+const link = require('../models/link.js');
 const cloudinary = require('cloudinary');
 const path = require('path');
 const fs = require('fs.promised');
@@ -153,12 +155,28 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), accessCh
         .then(data => {
             if (data) 
             {
-                return Promise.resolve(data);
+                return Promise.all([
+                    data,
+                    link.getAll(null, null, null, req.params.id),
+                    comment.getAll(null, null, null, req.params.id)
+                ]);
             }
             else return Promise.reject('Error 404: Not Found');
         })
-        .then(data => { 
-            category.update({ _id: data.category._id, modification: { $pull: { products: data.id } } });
+        .then(([data, links, comments]) => { 
+            let promises = [];
+            for (let c of comments)
+            {
+                promises.push(comment.delete(c._id));    
+            }
+            for (let l of links)
+            {
+                promises.push(link.delete(l._id));    
+            }
+            return Promise.all([
+                category.update({ _id: data.category._id, modification: { $pull: { products: data.id } } }),
+                Promise.all(promises)
+            ])
         })
         .then(() => product.delete(req.params.id))
         .then(data => res.status(200).json({user: req.user, data: data}))

@@ -14,6 +14,7 @@
         <p class="text">
           <b>Логин: </b>{{user.login}}<br />
           <b>Имя: </b>{{user.fullname}}<br />
+          <span ng-show="user.tgTag"><b>Telegram тег: </b>@{{user.tgTag}}<br /></span>
           <b>Роль: </b>{{user.role}}<br />
           <b>Дата регистрации: </b>{{user.registeredAt}}<br />
           <b class="text">О себе:</b>
@@ -75,6 +76,14 @@
               <label for="username">Имя</label>
               <input type="text" class="form-control" name="fullname" ng-model="updUser.fullname"
                 placeholder="Ваше имя">
+            </div>
+            <label for="username">Telegram тег</label>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">@</div>
+              </div>
+              <input type="text" class="form-control" name="fullname" ng-model="updUser.tgTag"
+                placeholder="@example">
             </div>
             <div class="form-group">
               <label for="bio">О себе</label>

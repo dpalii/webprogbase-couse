@@ -26,6 +26,29 @@ angular.
                     console.log(err);
                 });
         }
+        $scope.watch = function() {
+            $http.post('/api/v1/subscribtions/', JSON.stringify({ productId: $scope.product._id }))
+                .then(data => {
+                    toast('Успех', 'Вы подписались на обновления этого товара');
+                    checkSub();
+                })
+                .catch(err => {
+                    if(err.status == 400) toast('Ошибка', 'Чтобы подписаться на обновления, начните роботу с ботом');
+                    else if(err.status == 409) toast('Ошибка', 'Вы уже подписаны на обновления этого товара');
+                    console.log(err);
+                });
+        }
+        $scope.unwatch = function() {
+            $http.delete(`/api/v1/subscribtions/${$scope.product._id}`)
+                .then(data => {
+                    toast('Успех', 'Вы отписались от обновлений этого товара');
+                    checkSub();
+                })
+                .catch(err => {
+                    if(err.status == 404) toast('Ошибка', 'Вы уже отписаны от обновлений этого товара');
+                    console.log(err);
+                });
+        }
         $scope.remove = function(id) {
             $http.delete(`/api/v1/comments/${id}`)
                 .then(data => {
@@ -56,7 +79,6 @@ angular.
             $scope.offset = ($scope.page - 1) * $scope.limit;
             $http.get(`/api/v1/comments?limit=${$scope.limit}&offset=${$scope.offset}&id=${$scope.id}`)
                 .then(data => {
-                    console.log(data);
                     $scope.totalItems = data.data.data.count;
                     $scope.comments = data.data.data.comments;
                     $scope.pages = Math.floor($scope.totalItems / $scope.limit);
@@ -95,6 +117,7 @@ angular.
             $http.get(`/api/v1/products/${id}`)
                 .then(data => {
                     $scope.product = data.data.data;
+                    checkSub();
                     $scope.updProduct = {
                         prodname: $scope.product.prodname,
                         desc: $scope.product.desc,
@@ -105,5 +128,20 @@ angular.
                 .catch(err => {
                     console.log(err);
                 });
+        }
+        function checkSub() {
+            $http.get(`/api/v1/subscribtions/${$scope.product._id}`)
+                .then(data => {
+                    if (data.data.data) $scope.subbed = true;
+                    else $scope.subbed = false;
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+        function toast(head, body) {
+            $scope.toastHeader = head;
+            $scope.toastBody = body;
+            $('#toast').toast('show');
         }
     }]);

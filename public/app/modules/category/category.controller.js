@@ -14,6 +14,18 @@ angular.
             inStock: false,
             desc: ''
         }
+        $scope.limit = 5;
+        $scope.offset = 0;
+        $scope.page = 1;
+        $scope.pages = 1;
+        $scope.maxSize = 5;
+        $scope.setPage = setPage;
+        $scope.next = function () {
+            if ($scope.page < $scope.pages) setPage($scope.page + 1);
+        }
+        $scope.prev = function () {
+            if ($scope.page > 1) setPage($scope.page - 1);
+        }
         $scope.update = function () {
             $http.put(`/api/v1/categories/${id}`, { name: $scope.name })
                 .then(data => { 
@@ -58,9 +70,22 @@ angular.
                 .then(data => {
                     $scope.category = data.data.data;
                     $scope.name = $scope.category.name;
+                    setPage(1);
                 })
                 .catch(err => {
                     console.log(err);
                 });
         }
+        function setPage(pageNo) {
+            $scope.page = pageNo;
+            $scope.offset = ($scope.page - 1) * $scope.limit;
+            $http.get(`/api/v1/products?limit=${$scope.limit}&offset=${$scope.offset}&category=${$scope.category._id}`)
+                .then(data => {
+                    $scope.totalItems = data.data.data.count;
+                    $scope.products = data.data.data.products;
+                    $scope.pages = Math.floor($scope.totalItems / $scope.limit);
+                    if ($scope.totalItems % $scope.limit !== 0) $scope.pages += 1; 
+                })
+        };
+        
     }]);

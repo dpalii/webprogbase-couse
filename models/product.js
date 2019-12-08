@@ -28,11 +28,15 @@ class Product {
         if (item) return item.populate('category').populate('comments');
         else return undefined;
     }
-    static getAll(limit, offset, searchword) {
-        return productModel.find({ prodname: { $regex: searchword, $options: 'i' } }).skip(offset).limit(limit);
+    static getAll(limit, offset, searchword, category) {
+        if (limit !== null && offset !== null && category) return productModel.find({category: category}).skip(offset).limit(limit);
+        if (limit !== null && offset !== null) return productModel.find({ prodname: { $regex: searchword, $options: 'i' } }).skip(offset).limit(limit).populate('category');
+        if (category) return productModel.find({ category: category });
+        return undefined;
     }
-    static count(searchword) {
-        return productModel.countDocuments({ prodname: { $regex: searchword, $options: 'i' } });
+    static count(searchword, category) {
+        if (category) return productModel.countDocuments({ category: category });
+        return productModel.countDocuments({ prodname: { $regex: searchword, $options: 'i' } }); 
     }
     static create(x) {
         let today = new Date();

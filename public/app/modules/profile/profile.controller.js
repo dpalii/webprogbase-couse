@@ -7,7 +7,8 @@ angular.
         $scope.user = JSON.parse(localStorage.getItem('user'));
         $scope.updUser = {
             bio: $scope.user.bio,
-            fullname: $scope.user.fullname
+            fullname: $scope.user.fullname,
+            tgTag: $scope.user.tgTag
         }
         $scope.limit = 5;
         $scope.offset = 0;

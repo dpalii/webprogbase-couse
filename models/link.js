@@ -11,7 +11,7 @@ class Link {
 
     static getAll(limit, offset, userId, productId) {
         if (limit !== null && offset !== null && userId) return linkModel.find({ userId: userId }).skip(offset).limit(limit).populate('productId');
-        if (userId) return linkModel.find({ userId: userId });
+        if (userId) return linkModel.find({ userId: userId }).populate('productId');
         if (productId) return linkModel.find({ productId: productId });
         return undefined;
     }

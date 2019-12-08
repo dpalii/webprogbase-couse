@@ -11,6 +11,8 @@ const fs = require('fs.promised');
 const multer = require('multer');
 const passport = require('passport');
 const accessCheck = require('../modules/passport');
+const bot = require('../bot/bot.js');
+
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.API_KEY,
@@ -27,13 +29,24 @@ router.get('/', passport.authenticate('jwt', { session: false }), function(req, 
     let searchword = '';
     if (req.query.limit) limit = parseInt(req.query.limit);
     if (req.query.offset) offset = parseInt(req.query.offset);
-    if (req.query.searchword) searchword = req.query.searchword;
-    Promise.all([
-        product.getAll(limit, offset, searchword),
-        product.count(searchword)
-    ])
-        .then(([products, count]) => res.status(200).json({ user: req.user, data: { products: products, count: count } }))
-        .catch(err => res.status(500).json({err: err}));
+    if (req.query.category) {
+        let category = req.query.category;
+        Promise.all([
+            product.getAll(limit, offset, null, category),
+            product.count(null, category)
+        ])
+            .then(([products, count]) => res.status(200).json({ user: req.user, data: { products: products, count: count } }))
+            .catch(err => res.status(500).json({err: err}));
+    }
+    else {
+        if (req.query.searchword) searchword = req.query.searchword;
+        Promise.all([
+            product.getAll(limit, offset, searchword, null),
+            product.count(searchword)
+        ])
+            .then(([products, count]) => res.status(200).json({ user: req.user, data: { products: products, count: count } }))
+            .catch(err => res.status(500).json({err: err}));
+    }
 });
 router.get('/:id', passport.authenticate('jwt', { session: false }), function(req, res) {
     product.getById(req.params.id)
@@ -66,10 +79,6 @@ router.post('/', passport.authenticate('jwt', { session: false }), accessCheck.c
                     if (path.extname(req.file.originalname).toLowerCase() === ".png" || path.extname(req.file.originalname).toLowerCase() === ".jpg") newprod.prodpic = result.url;
                     else newprod.prodpic = '/images/default.jpg'; 
                     product.create(newprod)
-                        .then(data => { 
-                            if (data.category) Promise.resolve(category.update({ _id: data.category, modification: { $push: { products: data._id } } }));
-                            return Promise.resolve(data); 
-                        })
                         .then(data => res.status(201).json({user: req.user, data: data}))
                         .catch(err => { throw err });
                 })
@@ -85,10 +94,6 @@ router.post('/', passport.authenticate('jwt', { session: false }), accessCheck.c
     else {
         newprod.prodpic = '/images/default.jpg'; 
         product.create(newprod)
-            .then(data => { 
-                Promise.resolve(category.update({ _id: data.category, modification: { $push: { products: data._id } } }));
-                return Promise.resolve(data); 
-            })
             .then(data => res.status(201).json({user: req.user, data: data}))
             .catch(err => res.status(500).json({err: err}));
     }
@@ -110,6 +115,7 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), accessCheck
             .then(data => {
                     if (data) 
                     {
+                        bot.sendToSubscribers(`<a href="http://127.0.0.1:5000/#!/product/${data._id}">Товар</a>, на который Вы подписаны, был обновлен!`, data._id);
                         res.status(200).json({user: req.user, data: data});
                     }
                     else res.status(404).json({err: 'Error 404: Not Found'});
@@ -133,6 +139,7 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), accessCheck
                     .then(data => {
                         if (data) 
                         {
+                            bot.sendToSubscribers(`<a href="http://127.0.0.1:5000/#!/product/${data._id}">Товар</a>, на который Вы подписаны, был обновлен!`, data._id);
                             res.status(200).json({user: req.user, data: data});
                         }
                         else res.status(404).json({err: 'Error 404: Not Found'});
@@ -157,6 +164,7 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), accessCh
             {
                 return Promise.all([
                     data,
+                    category.delete(data.category),
                     link.getAll(null, null, null, req.params.id),
                     comment.getAll(null, null, null, req.params.id)
                 ]);
@@ -173,10 +181,7 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), accessCh
             {
                 promises.push(link.delete(l._id));    
             }
-            return Promise.all([
-                category.update({ _id: data.category._id, modification: { $pull: { products: data.id } } }),
-                Promise.all(promises)
-            ])
+            return Promise.all(promises)
         })
         .then(() => product.delete(req.params.id))
         .then(data => res.status(200).json({user: req.user, data: data}))

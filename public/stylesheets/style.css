@@ -40,6 +40,10 @@ td.fit {
 }
 .toast-custom {
   position: fixed;
-  bottom: 0;
+  
+  top: 0;
   right: 0;
+}
+.over {
+  z-index: 2000;
 }

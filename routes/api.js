@@ -7,6 +7,7 @@ const categoryRoutes = require('./categories');
 const commentRoutes = require('./comments');
 const linkRoutes = require('./links');
 const authRoutes = require('./auth');
+const subscribtionRoutes = require('./subscribtions');
 
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
@@ -14,6 +15,7 @@ router.use('/products', productRoutes);
 router.use('/categories', categoryRoutes);
 router.use('/comments', commentRoutes);
 router.use('/links', linkRoutes);
+router.use('/subscribtions', subscribtionRoutes);
 
 router.get('/', (req, res) => {
     res.json({});

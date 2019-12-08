@@ -89,6 +89,7 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), function(re
     if (req.user._id == req.params.id) {
         if (req.body.bio && req.body.bio.length > 0) newuser.bio = req.body.bio;
         if (req.body.fullname && req.body.fullname.length > 0) newuser.fullname = req.body.fullname;
+        if (req.body.tgTag && req.body.tgTag.length > 0) newuser.tgTag = req.body.tgTag;
             if (!req.file) 
             {
                 user.update(newuser)

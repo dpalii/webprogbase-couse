@@ -8,25 +8,21 @@ const userSchema = new mongoose.Schema({
     registeredAt: { type: String, required: true },
     avaUrl: { type: String, required: true },
     isDeactivated: { type: Boolean, required: true },
-    bio: { type: String }
+    bio: { type: String },
+    tgTag: { type: String },
+    chatId: { type: String }
 });
 const userModel = mongoose.model('User', userSchema, 'users');
 
 class User {
-    constructor(passHash, login, role = 0, fullname = "not specified", avaUrl = "", registeredAt = Date.now.toString, isDeactivated = false) {
-        this.login = login; 
-        this.passHash = passHash;
-        this.role = role;
-        this.fullname = fullname;  
-        this.role = role;
-        this.registeredAt = registeredAt;
-        this.avaUrl = avaUrl;
-        this.isDeactivated = isDeactivated;
-    }
     static getById(id) {
-        let item = userModel.findById(id);
-        if (item) return item.populate('cart');
-        else return undefined;
+        return userModel.findById(id);
+    }
+    static getByTag(tag) {
+        return userModel.findOne({ tgTag: tag });
+    }
+    static getByChatId(id) {
+        return userModel.findOne({ chatId: id });
     }
     static getAll(limit, offset, searchword) {
         return userModel.find({ login: { $regex: searchword, $options: 'i' } }).skip(offset).limit(limit);

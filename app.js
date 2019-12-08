@@ -17,6 +17,7 @@ const fileOptions = { root: path.join(__dirname, './views')};
 const accessCheck = require('./modules/passport');
 const apiRoutes = require('./routes/api');
 const devRoutes = require('./routes/developer');
+const bot = require('./bot/bot.js')
 
 app.use(passport.initialize());
 app.engine("mst", mustache(path.join(viewsDir, "partials")));

@@ -32,8 +32,7 @@ router.get('/:id', passport.authenticate('jwt', { session: false }), function(re
 });
 router.post('/', passport.authenticate('jwt', { session: false }), accessCheck.checkAdmin, function(req, res) {
     let newcat = {
-        name: req.body.name,
-        products: [],
+        name: req.body.name
     }
     category.create(newcat)
         .then(data => res.status(201).json({user: req.user, data: data}))
@@ -59,13 +58,16 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), accessCh
         .then(data => {
             if (data) 
             {
-                return Promise.resolve(data);
+                return Promise.all([
+                    data,
+                    product.getAll(null, null, null, req.params.id)
+                ]);
             }
             else return Promise.reject('Error 404: Not Found');
         })
-        .then(data => {
+        .then(([data, products]) => {
             let promises = [];
-            for (let p of data.products)
+            for (let p of products)
             {
                 promises.push(product.delete(p._id));    
             }

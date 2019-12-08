@@ -13,14 +13,24 @@
                 </div>
                 <p class="text">
                     <h3>{{product.prodname}}</h3>
+                    </span>
                     <b>Категория: </b><a href="#!category/{{product.category._id}}">{{product.category.name}}</a><br />
                     <b>В наличии: </b><span ng-if="product.inStock">да</span><span
                         ng-if="!product.inStock">нет</span><br />
+                    <button class="btn btn-secondary btn-sm my-2" type="button" ng-if="!subbed"
+                        ng-click="watch()">Следить за
+                        обновлениями
+                    </button>
+                    <button class="btn btn-secondary btn-sm my-2" type="button" ng-if="subbed"
+                        ng-click="unwatch()">Отписаться от
+                        обновлений
+                    </button><br />
                     <button class="btn btn-outline-success btn-lg" id="search" type="button"
                         ng-click="addToCart(product)"><i class="material-icons align-top">shopping_cart</i><span
                             class="align-top">
                             {{product.price}}
-                            грн</span></button>
+                            грн</span>
+                    </button>
                 </p>
             </div>
         </div>
@@ -45,7 +55,7 @@
                     <tbody ng-repeat="comment in comments">
                         <tr>
                             <td>
-                                <b>Автор: </b><a href="#!user/{{comment.author._id}}">{{comment.author.fullname}}</a>  | 
+                                <b>Автор: </b><a href="#!user/{{comment.author._id}}">{{comment.author.fullname}}</a> |
                                 <button type="button" ng-click="remove(comment._id)"
                                     class="btn btn-danger btn-sm my-2">Удалить</button>
                                 <textarea class="form-control" readonly>{{comment.content}}</textarea>
@@ -74,17 +84,32 @@
             </div>
         </div>
     </div>
-    <div class="toast toast-custom" id="purchaseNotification" data-autohide="false">
-        <div class="toast-header">
-            <strong class="mr-auto"><i class="fa fa-grav"></i>{{lastPurchase}} added to cart</strong>
-            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">
-                <span aria-hidden="true">&times;</span>
-            </button>
+    <!--  -->
+    <div class="toast-custom over m-3">
+        <div class="toast over" role="alert" id="toast" aria-live="assertive" aria-atomic="true" data-autohide="false">
+            <div class="toast-header">
+                <strong class="mr-auto">{{toastHeader}}</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                <span>{{toastBody}}</span>
+            </div>
         </div>
-        <div class="toast-body">
-            <div>Proceed to your <a href="#!me">profile</a> to complete purchase</div>
+        <div class="toast" id="purchaseNotification" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+            <div class="toast-header">
+                <strong class="mr-auto"><i class="fa fa-grav"></i>{{lastPurchase}} added to cart</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                <div>Proceed to your <a href="#!me">profile</a> to complete purchase</div>
+            </div>
         </div>
     </div>
+
     <!-- modals -->
     <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editModal" id="editModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">

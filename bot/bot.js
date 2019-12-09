@@ -76,7 +76,7 @@ bot.onText(/\/subscriptions/, (msg, match) => {
         .then(data => {
             if (data) {
                 let subs = 'нет подписок';
-                let arr = data.map(x => `\n - <a href="http://127.0.0.1:5000/#!/product/${x.productId._id}">${x.productId.prodname}</a>`);
+                let arr = data.map(x => `\n - <a href="` + tgBot.link + `/product/${x.productId._id}">${x.productId.prodname}</a>`);
                 if (arr.length > 0) subs = arr.reduce((accumulator, currVal) => accumulator + currVal);
                 bot.sendMessage(chatId, 'Подписки: ' + subs, {
                     parse_mode: 'html',

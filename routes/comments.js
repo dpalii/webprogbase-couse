@@ -23,7 +23,8 @@ router.post('/', passport.authenticate('jwt', { session: false }), function(req,
         product: req.body.product,
         content: req.body.content,
     }
-    comment.create(newcom)
+    if (!req.body.product || !req.body.content) res.status(500).json({err: 'missing products or content'});
+    else comment.create(newcom)
         .then(data => res.status(201).json({user: req.user, data: data}))
         .catch(err => res.status(500).json({err: err}));
 });

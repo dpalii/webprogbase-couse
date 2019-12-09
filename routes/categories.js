@@ -34,12 +34,14 @@ router.post('/', passport.authenticate('jwt', { session: false }), accessCheck.c
     let newcat = {
         name: req.body.name
     }
-    category.create(newcat)
+    if (!newcat.name) res.status(400).json({err: 'name is required'});
+    else category.create(newcat)
         .then(data => res.status(201).json({user: req.user, data: data}))
         .catch(err => res.status(500).json({err: err}));
 });
 router.put('/:id', passport.authenticate('jwt', { session: false }), accessCheck.checkAdmin, function(req, res) {
-    category.update({_id: req.params.id, modification: req.body})
+    if (!req.body.name) res.status(400).json({err: 'name is required'});
+    else category.update({_id: req.params.id, modification: req.body})
         .then(data => {
             if (data) 
             {

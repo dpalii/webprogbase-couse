@@ -17,7 +17,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <table class="table mt-2">
+                <table class="table mt-2 table-responsive-sm">
                     <thead class="thead-light">
                         <tr>
                             <th colspan="2" class="d-flex justify-content-center">Товары:</th>
@@ -37,7 +37,8 @@
                                 <span class="sr-only">Previous</span>
                             </span>
                         </li>
-                        <li class="page-item disabled"><a id="pageNum" class="page-link" href="#">{{page}} из {{pages}}</a></li>
+                        <li class="page-item disabled"><a id="pageNum" class="page-link" href="#">{{page}} из
+                                {{pages}}</a></li>
                         <li class="page-item" id="next" ng-show="page < pages" ng-click="next()">
                             <span class="page-link cursor-pointer" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
@@ -116,12 +117,17 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="updateForm" name="form" ng-submit="form.$valid && update()" novalidate>
+                <form id="updateForm" name="updateForm" ng-submit="updateForm.$valid && update()" novalidate>
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="name">Название</label>
-                            <input type="text" ng-class="{ 'has-error': form.$submitted && form.name.$invalid }"
-                                class="form-control" name="name" ng-model="name" id="name" placeholder="Название">
+                            <input type="text"
+                                ng-class="{ 'has-error': updateForm.$submitted && updateForm.name.$invalid }"
+                                class="form-control" name="name" ng-model="name" id="name" placeholder="Название"
+                                required>
+                            <div ng-show="updateForm.$submitted && updateForm.name.$error.required" class="help-block">
+                                <small class="text-muted text-danger text-small">Name is required</small>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

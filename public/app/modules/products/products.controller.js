@@ -34,7 +34,7 @@ angular.
             $scope.searchword = $scope.searchinput;
             $scope.page = pageNo;
             $scope.offset = ($scope.page - 1) * $scope.limit;
-            $http.get(`/api/v1/products?limit=${$scope.limit}&offset=${$scope.offset}&searchword=${$scope.searchword}`)
+            $http.get(`/api/v1/products?limit=${$scope.limit}&offset=${$scope.offset}&searchword=${$scope.searchword}&inDesc=${$scope.inDesc}`)
                 .then(data => {
                     $scope.totalItems = data.data.data.count;
                     $scope.products = data.data.data.products;

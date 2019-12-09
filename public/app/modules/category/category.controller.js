@@ -60,6 +60,7 @@ angular.
                 .then(data => {
                     getCategory(id);
                     $("#createModal").modal('hide');
+                    $location.path(`/product/${data.data.data._id}`);
                 })
                 .catch(err => {
                     $scope.createErr = 'Файл слишком большой';

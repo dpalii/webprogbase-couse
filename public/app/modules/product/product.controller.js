@@ -45,7 +45,7 @@ angular.
                     checkSub();
                 })
                 .catch(err => {
-                    if(err.status == 404) toast('Ошибка', 'Вы уже отписаны от обновлений этого товара');
+                    if(err.status == 400) toast('Ошибка', 'Вы уже отписаны от обновлений этого товара');
                     console.log(err);
                 });
         }
@@ -87,6 +87,8 @@ angular.
         };
         function upd() {
             var fd = new FormData();
+            if ($scope.updProduct.inStock == "true") $scope.updProduct.inStock = true;
+            else $scope.updProduct.inStock == false;
             for(prop in $scope.updProduct) fd.append(prop, $scope.updProduct[prop]);
             fd.append('prodpic', $scope.prodpic);
             $http.put(`/api/v1/products/${$scope.id}`, fd, {

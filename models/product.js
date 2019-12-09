@@ -28,8 +28,9 @@ class Product {
         if (item) return item.populate('category').populate('comments');
         else return undefined;
     }
-    static getAll(limit, offset, searchword, category) {
+    static getAll(limit, offset, searchword, inDesc, category) {
         if (limit !== null && offset !== null && category) return productModel.find({category: category}).skip(offset).limit(limit);
+        if (limit !== null && offset !== null && inDesc === 'true') return productModel.find({ $or: [{ prodname: { $regex: searchword, $options: 'i' } }, { desc: { $regex: searchword, $options: 'i' } }] }).skip(offset).limit(limit).populate('category');
         if (limit !== null && offset !== null) return productModel.find({ prodname: { $regex: searchword, $options: 'i' } }).skip(offset).limit(limit).populate('category');
         if (category) return productModel.find({ category: category });
         return undefined;
@@ -48,7 +49,7 @@ class Product {
         return productModel.create(x);
     }
     static update(x) {
-        return productModel.findByIdAndUpdate(x._id, x, { new: true });
+        return productModel.findByIdAndUpdate(x._id, x, { new: true }).populate('category');
     }
     static delete(id) {
         return productModel.findByIdAndDelete(id);

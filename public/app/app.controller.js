@@ -12,6 +12,8 @@ angular.
                     $scope.user = user.user;
                     $scope.isLogged = true;
                     $("#loginModal").modal('hide');
+                    $scope.username = '';
+                    $scope.password = '';
                 } else {
                     $scope.logErr = 'Username or password is incorrect';
                 }
@@ -25,6 +27,9 @@ angular.
                     $scope.user = user.user;
                     $scope.isLogged = true;
                     $("#registerModal").modal('hide');
+                    $scope.username = '';
+                    $scope.password = '';
+                    $scope.confirm = '';
                 } else {
                     $scope.regErr = 'Username is occupied';
                 }

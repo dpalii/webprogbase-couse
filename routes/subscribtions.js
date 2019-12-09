@@ -8,7 +8,8 @@ router.post('/', passport.authenticate('jwt', { session: false }), function (req
         chatId: req.user.chatId,
         productId: req.body.productId,
     }
-    if (newsub.chatId == null) res.status(400).json({ err: 'no chatId' });
+    if (!newsub.productId) res.status(400).json({ err: 'no productId' });
+    else if (newsub.chatId == null) res.status(400).json({ err: 'no chatId' });
     else subscribtion.get(req.user.chatId, req.body.productId)
         .then(data => {
             if (data) res.status(409).json({ err: 'already subscribed' });
@@ -32,7 +33,7 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), function
         })
         .then((data) => res.status(200).json({ user: req.user, data: data }))
         .catch(err => {
-            if (err == 'Error 404: Not Found') res.status(404).json({ err: err });
+            if (err == 'Error 404: Not Found') res.status(400).json({ err: err });
             else res.status(500).json({ err: err });
         });
 });

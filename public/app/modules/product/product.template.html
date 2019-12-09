@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-auto">
-                <img class="profimg img-thumbnail" src="{{product.prodpic}}" alt="{{product.prodname}}" />
+                <img class="profimg img-fluid img-thumbnail" src="{{product.prodpic}}" alt="{{product.prodname}}" />
             </div>
             <div class="col">
                 <div class="btn-group" ng-if="user.role == 'admin'" id="control" role="group">
@@ -42,16 +42,21 @@
                 </textarea>
             </div>
         </div>
-        <div class="input-group">
-            <input type="text" name="newcomment" class="form-control" ng-model="newcomment"
-                placeholder="Оставте отзыв о товаре">
-            <div class="input-group-append">
-                <button class="btn btn-primary" ng-click="postComment()" type="submit">Опубликовать отзыв</button>
+        <form name="comment" ng-submit="comment.$valid && postComment()" novalidate>
+            <div class="input-group">
+                <input type="text" ng-class="{ 'has-error': comment.$submitted && comment.newcomment.$invalid }"
+                    name="newcomment" class="form-control" ng-model="newcomment" placeholder="Оставте отзыв о товаре" required>
+                <div class="input-group-append">
+                    <input class="btn btn-primary" type="submit" value="Опубликовать отзыв">
+                </div>
             </div>
-        </div>
+            <div ng-show="comment.$submitted && comment.newcomment.$error.required" class="help-block">
+                <small class="text-muted text-danger text-small">Отзыв не может быть пустым</small>
+            </div>
+        </form>
         <div class="row">
             <div class="col">
-                <table class="table mt-2">
+                <table class="table mt-2 table-responsive-sm">
                     <tbody ng-repeat="comment in comments">
                         <tr>
                             <td>
@@ -85,8 +90,8 @@
         </div>
     </div>
     <!--  -->
-    <div class="toast-custom over m-3">
-        <div class="toast over" role="alert" id="toast" aria-live="assertive" aria-atomic="true" data-autohide="false">
+    <div class="toast-custom m-3">
+        <div class="toast" role="alert" id="toast" aria-live="assertive" aria-atomic="true" data-autohide="false">
             <div class="toast-header">
                 <strong class="mr-auto">{{toastHeader}}</strong>
                 <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
@@ -97,7 +102,8 @@
                 <span>{{toastBody}}</span>
             </div>
         </div>
-        <div class="toast" id="purchaseNotification" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+        <div class="toast" id="purchaseNotification" role="alert" aria-live="assertive" aria-atomic="true"
+            data-autohide="false">
             <div class="toast-header">
                 <strong class="mr-auto"><i class="fa fa-grav"></i>{{lastPurchase}} added to cart</strong>
                 <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">

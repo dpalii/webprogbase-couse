@@ -8,10 +8,10 @@
                 <button class="btn btn-primary" id="search" ng-click="setPage(1)" type="submit">Найти</button>
             </div>
         </div>
-        <span ng-if="searchword" class="form-text text-muted">Результаты поиска для: '{{searchword}}'.</span>
+        <span ng-if="searchword" class="form-text text-muted">Результаты поиска для: '{{searchword}}'. Найдено: {{totalItems}}.</span>
         <div class="alert alert-danger" ng-if="totalItems == 0">Ничего не найдено.</div>
     </form>
-    <table class="table" id="userList" ng-show="pages > 0">
+    <table class="table table-responsive-sm" id="userList" ng-show="pages > 0">
         <thead class="thead-light">
             <tr>
                 <th>Пользователь</th>

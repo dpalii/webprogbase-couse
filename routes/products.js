@@ -27,8 +27,10 @@ router.get('/', passport.authenticate('jwt', { session: false }), function(req, 
     let limit = 10;
     let offset = 0;
     let searchword = '';
+    let inDesc = 'false';
     if (req.query.limit) limit = parseInt(req.query.limit);
     if (req.query.offset) offset = parseInt(req.query.offset);
+    if (req.query.inDesc == 'true') inDesc = 'true';
     if (req.query.category) {
         let category = req.query.category;
         Promise.all([
@@ -41,7 +43,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), function(req, 
     else {
         if (req.query.searchword) searchword = req.query.searchword;
         Promise.all([
-            product.getAll(limit, offset, searchword, null),
+            product.getAll(limit, offset, searchword, inDesc, null),
             product.count(searchword)
         ])
             .then(([products, count]) => res.status(200).json({ user: req.user, data: { products: products, count: count } }))
@@ -65,9 +67,10 @@ router.post('/', passport.authenticate('jwt', { session: false }), accessCheck.c
         price : req.body.price,
         uplDate : req.body.uplDate,
         category : req.body.category,
-        desc: req.body.desc
+        desc: req.body.desc,
+        inStock: req.body.inStock
     }
-    if (req.body.inStock) newprod.inStock = true;
+    
     if (req.file) fs.readFile(req.file.path)
         .then(fileObject => {
             const fileBuffer = fileObject;
@@ -103,9 +106,9 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), accessCheck
         _id: req.params.id,
         prodname : req.body.prodname,
         price : req.body.price,
-        desc: req.body.desc
+        desc: req.body.desc,
+        inStock: req.body.inStock == "true"
     }
-    if (req.body.inStock) newprod.inStock = true;
     if (!req.file) 
     {
         product.getById(req.params.id)
@@ -115,7 +118,7 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), accessCheck
             .then(data => {
                     if (data) 
                     {
-                        bot.sendToSubscribers(`<a href="http://127.0.0.1:5000/#!/product/${data._id}">Товар</a>, на который Вы подписаны, был обновлен!`, data._id);
+                        bot.sendToSubscribers(`<a href="` + bot.link + `/product/${data._id}">Товар</a>, на который Вы подписаны, был обновлен!`, data._id);
                         res.status(200).json({user: req.user, data: data});
                     }
                     else res.status(404).json({err: 'Error 404: Not Found'});
@@ -139,7 +142,7 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), accessCheck
                     .then(data => {
                         if (data) 
                         {
-                            bot.sendToSubscribers(`<a href="http://127.0.0.1:5000/#!/product/${data._id}">Товар</a>, на который Вы подписаны, был обновлен!`, data._id);
+                            bot.sendToSubscribers(`<a href="` + bot.link + `/product/${data._id}">Товар</a>, на который Вы подписаны, был обновлен!`, data._id);
                             res.status(200).json({user: req.user, data: data});
                         }
                         else res.status(404).json({err: 'Error 404: Not Found'});

@@ -3,7 +3,7 @@ angular.
     component('categories', {
         templateUrl: 'app/modules/categories/categories.template.html'
     }).
-    controller('categoriesController', ['$scope', '$http', function ($scope, $http) {
+    controller('categoriesController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
         $scope.limit = 5;
         $scope.offset = 0;
         $scope.searchword = '';
@@ -24,6 +24,7 @@ angular.
                 .then(data => {
                     setPage(1);
                     $('#createModal').modal('hide');
+                    $location.path(`/category/${data.data.data._id}`);
                 })
         }
         function setPage(pageNo) {

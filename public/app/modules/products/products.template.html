@@ -8,13 +8,19 @@
                 <button class="btn btn-primary" id="search" ng-click="setPage(1)" type="submit">Найти</button>
             </div>
         </div>
-        <span ng-if="searchword" class="form-text text-muted">Результаты поиска для: '{{searchword}}'.</span>
+        <div class="form-group form-check m-2 cursor-pointer">
+            <input type="checkbox" class="form-check-input" ng-model="inDesc" ng-true-value="true"
+                ng-false-value="false" name="inDesc" id="inDesc">
+            <label class="form-check-label" for="inDesc">Искать в описании</label>
+        </div>
+        <span ng-if="searchword" class="form-text text-muted">Результаты поиска для: '{{searchword}}'. Найдено:
+            {{totalItems}}.</span>
         <div class="alert alert-danger" ng-if="totalItems == 0">Ничего не найдено.</div>
     </form>
-    <table class="table" id="productList" ng-show="pages > 0">
+    <table class="table table-responsive-sm" id="productList" ng-show="pages > 0">
         <tbody ng-repeat="product in products">
             <tr>
-                <td class="fit block"><img class="img-thumbnail profimg" src="{{product.prodpic}}"" alt="
+                <td class="fit block"><img class="img-thumbnail img-fluid imglist " src="{{product.prodpic}}"" alt="
                         {{product.prodname}}" /></td>
                 <td class="block"><a href="#!product/{{product._id}}">
                         <h3>{{product.prodname}}</h3>
@@ -30,8 +36,8 @@
             </tr>
         </tbody>
     </table>
-    <div class="toast toast-custom over m-3" id="purchaseNotification" data-autohide="false">
-        <div class="toast-header over">
+    <div class="toast toast-custom m-3" id="purchaseNotification" data-autohide="false">
+        <div class="toast-header">
             <strong class="mr-auto"><i class="fa fa-grav"></i>{{lastPurchase}} added to cart</strong>
             <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">
                 <span aria-hidden="true">&times;</span>

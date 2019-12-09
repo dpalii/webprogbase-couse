@@ -21,7 +21,8 @@ router.post('/', passport.authenticate('jwt', { session: false }), function (req
         userId: req.user._id,
         productId: req.body.productId,
     }
-    link.create(newlink)
+    if (!req.body.productId) res.status(500).json({err: 'missing product id'});
+    else link.create(newlink)
         .then(data => res.status(201).json({ user: req.user, data: data }))
         .catch(err => res.status(500).json({ err: err }));
 });

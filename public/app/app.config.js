@@ -1,7 +1,7 @@
 angular.
   module('modernApp').
-  config(['$routeProvider',
-    function config($routeProvider) {
+  config(['$routeProvider', '$httpProvider',
+    function config($routeProvider ,$httpProvider) {
       $routeProvider.
         when('/about', {
           template: '<about></about>'
@@ -30,7 +30,17 @@ angular.
         when('/', {
           template: '<home></home>'
         }).
-        otherwise('/');
+        when('/401', {
+          template: '<e401></e401>'
+        }).
+        when('/403', {
+          template: '<e403></e403>'
+        }).
+        when('/404', {
+          template: '<e404></e404>'
+        }).
+        otherwise('/404');
+        $httpProvider.interceptors.push('httpResponseInterceptor');
     }
   ]).
   run(function run($rootScope, $http, $location) {

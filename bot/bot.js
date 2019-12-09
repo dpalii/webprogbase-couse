@@ -8,6 +8,7 @@ const token = process.env.TELEGRAM_TOKEN;
 
 const bot = new TelegramBot(token, { polling: true });
 const tgBot = {};
+tgBot.link = 'http://127.0.0.1:5000/#!';
 tgBot.createSubscribtion = function (chatId, productId) {
     subscribtion.create({ chatId, productId })
         .catch(err => console.log(err));
@@ -38,7 +39,7 @@ bot.onText(/\/cart/, (msg, match) => {
         .then(data => {
             if (data) {
                 let cart = 'пусто';
-                let arr = data.map(x => `\n - <a href="http://127.0.0.1:5000/#!/product/${x.productId._id}">${x.productId.prodname}</a>`);
+                let arr = data.map(x => `\n - <a href="` + tgBot.link + `/product/${x.productId._id}">${x.productId.prodname}</a>`);
                 if (arr.length > 0) cart = arr.reduce((accumulator, currVal) => accumulator + currVal);
                 bot.sendMessage(chatId, 'Корзина: ' + cart, {
                     parse_mode: 'html',

@@ -30,46 +30,15 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 app.use(methodOverride());
-app.use(express.static('public'));
 app.use('/developer/v1', devRoutes);
 app.use('/api/v1', apiRoutes);
-app.use(express.static(path.join(__dirname, './public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 mongoose.connect(dbUrl, connectOptions)
     .then(() => console.log(`database connected`))
     .then(() => app.listen(serverPort, function() { console.log(`Server started`); }))
     .catch(err => console.log(`start error: ${err.toString()}`));
 
-// app.get("/", (req, res) => {
-//     res.render('index');
-// });
-// app.get("/products/:id", (req, res) => {
-//     res.render('product');
-// });
-// app.get("/products", (req, res) => {
-//     res.render('products');
-// });
-// app.get("/users/:id", (req, res) => {
-//     res.render('user');
-// });
-// app.get("/users", (req, res) => {
-//     res.render('users');
-// });
-// app.get("/categories/:id", (req, res) => {
-//     res.render('category');
-// });
-// app.get("/categories", (req, res) => {
-//     res.render('categories');
-// });
-// app.get("/me", (req, res) => {
-//     res.render('profile');
-// });
-// app.get("/about", (req, res) => {
-//     res.render('about');
-// });
-// app.get("*", (req, res) => {
-//     res.render('notfound');
-// });
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/app/index.html'));
 })

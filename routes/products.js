@@ -19,7 +19,7 @@ cloudinary.config({
     api_secret: process.env.API_SECRET
 });
 const upload = multer({ 
-    dest : '../data/fs/', 
+    dest : './data/fs/', 
     limits : { fileSize : 1024 * 1024, }
 });
 

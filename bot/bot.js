@@ -8,7 +8,7 @@ const token = process.env.TELEGRAM_TOKEN;
 
 const bot = new TelegramBot(token, { polling: true });
 const tgBot = {};
-tgBot.link = 'http://127.0.0.1:5000/#!';
+tgBot.link = 'https://modern-curtains.herokuapp.com/#!';
 tgBot.createSubscribtion = function (chatId, productId) {
     subscribtion.create({ chatId, productId })
         .catch(err => console.log(err));

@@ -106,9 +106,9 @@ angular.
                 });
         }
         function del() {
+            $("#deleteModal").modal('hide');
             $http.delete(`/api/v1/products/${$scope.id}`)
                 .then(data => {
-                    $("#deleteModal").modal('hide');
                     $location.path('/products');
                 })
                 .catch(err => {

@@ -12,7 +12,7 @@
             {{totalItems}}.</span>
         <div class="alert alert-danger" ng-if="totalItems == 0">Ничего не найдено.</div>
     </form>
-    <div class="btn-group mb-3" id="control" role="group">
+    <div class="btn-group mb-3" id="control" ng-if="user.role == 'admin'" role="group">
         <button type="button" id="edit" data-toggle="modal" data-target="#createModal"
             class="btn btn-primary btn my-2">Создать категорию</button>
     </div>

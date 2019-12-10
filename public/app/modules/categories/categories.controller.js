@@ -4,6 +4,7 @@ angular.
         templateUrl: 'app/modules/categories/categories.template.html'
     }).
     controller('categoriesController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+        $scope.user = JSON.parse(localStorage.getItem('user'));
         $scope.limit = 5;
         $scope.offset = 0;
         $scope.searchword = '';
@@ -20,10 +21,10 @@ angular.
             if ($scope.page > 1) setPage($scope.page - 1);
         }
         $scope.create = function () {
+            $('#createModal').modal('hide');
             $http.post('/api/v1/categories', { name: $scope.name })
                 .then(data => {
                     setPage(1);
-                    $('#createModal').modal('hide');
                     $location.path(`/category/${data.data.data._id}`);
                 })
         }

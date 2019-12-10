@@ -71,10 +71,10 @@ angular.
                 });
         }
         function del() {
+            $("#deleteModal").modal('hide');
             $http.delete(`/api/v1/users/${$scope.user._id}`)
                 .then(data => {
                     $scope.$parent.$parent.$parent.logout();
-                    $("#deleteModal").modal('hide');
                 })
                 .catch(err => {
                     $scope.delErr = 'Ошибка удаления';

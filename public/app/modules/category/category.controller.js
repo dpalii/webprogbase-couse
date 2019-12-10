@@ -37,9 +37,9 @@ angular.
                 });
         }
         $scope.delete = function () {
+            $("#deleteModal").modal('hide');
             $http.delete(`/api/v1/categories/${id}`)
                 .then(data => { 
-                    $("#deleteModal").modal('hide');
                     $location.path('/categories');
                 })
                 .catch(err => {
@@ -51,6 +51,7 @@ angular.
             for (prop in $scope.newprod) fd.append(prop, $scope.newprod[prop]);
             fd.append('category', id);
             fd.append('prodpic', $scope.prodpic);
+            $("#createModal").modal('hide');
             $http.post('/api/v1/products', fd, {
                 transformRequest: angular.identity,
                 headers: {
@@ -59,7 +60,6 @@ angular.
             })
                 .then(data => {
                     getCategory(id);
-                    $("#createModal").modal('hide');
                     $location.path(`/product/${data.data.data._id}`);
                 })
                 .catch(err => {

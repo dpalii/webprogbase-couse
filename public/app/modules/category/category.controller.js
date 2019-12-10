@@ -51,7 +51,6 @@ angular.
             for (prop in $scope.newprod) fd.append(prop, $scope.newprod[prop]);
             fd.append('category', id);
             fd.append('prodpic', $scope.prodpic);
-            $("#createModal").modal('hide');
             $http.post('/api/v1/products', fd, {
                 transformRequest: angular.identity,
                 headers: {
@@ -59,6 +58,7 @@ angular.
                 }
             })
                 .then(data => {
+                    $("#createModal").modal('hide');
                     getCategory(id);
                     $location.path(`/product/${data.data.data._id}`);
                 })

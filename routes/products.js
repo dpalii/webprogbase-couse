@@ -174,7 +174,7 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), accessCh
             }
             else return Promise.reject('Error 404: Not Found');
         })
-        .then(([data, links, comments]) => { 
+        .then(([data, category, links, comments]) => { 
             let promises = [];
             for (let c of comments)
             {

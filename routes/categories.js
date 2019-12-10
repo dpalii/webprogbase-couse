@@ -62,7 +62,7 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), accessCh
             {
                 return Promise.all([
                     data,
-                    product.getAll(null, null, null, req.params.id)
+                    product.getAll(null, null, null, 'false', req.params.id)
                 ]);
             }
             else return Promise.reject('Error 404: Not Found');

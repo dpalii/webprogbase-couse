@@ -64,7 +64,7 @@
                                 <td>
                                     <b>Автор: </b><a
                                         href="#!user/{{comment.author._id}}">{{comment.author.fullname}}</a> |
-                                    <button type="button" ng-click="remove(comment._id)"
+                                    <button type="button" ng-if="user.role == 'admin'" ng-click="remove(comment._id)"
                                         class="btn btn-danger btn-sm my-2">Удалить</button>
                                     <textarea class="form-control" readonly>{{comment.content}}</textarea>
                                 </td>

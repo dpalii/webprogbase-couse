@@ -46,6 +46,7 @@ router.get('/:id', passport.authenticate('jwt', { session: false }), accessCheck
         .catch(err => res.status(500).json({ err: err}));
 });
 router.post('/', function(req, res, next) {
+    console.log(1, req.body.username, req.body.password);
     let username = req.body.username;
     let pass = req.body.password;
     if (!username || !pass) res.status(400).json({err: 'Неполные данные'});
@@ -59,6 +60,7 @@ router.post('/', function(req, res, next) {
     }
 }, function(req, res) {
     let passwordHash = accessCheck.encode(req.body.password).passwordHash;
+    console.log(2, req.body.username, req.body.password);
     user.create(req.body.username, passwordHash)
         .then(data => {
             res.status(201).json(data);

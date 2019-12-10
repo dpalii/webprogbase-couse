@@ -5,6 +5,7 @@ const product = require('../models/product.js');
 const category = require('../models/category.js');
 const comment = require('../models/comment.js');
 const link = require('../models/link.js');
+const subscription = require('../models/subscribtion.js')
 const cloudinary = require('cloudinary');
 const path = require('path');
 const fs = require('fs.promised');
@@ -169,12 +170,13 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), accessCh
                     data,
                     category.delete(data.category),
                     link.getAll(null, null, null, req.params.id),
-                    comment.getAll(null, null, null, req.params.id)
+                    comment.getAll(null, null, null, req.params.id),
+                    subscription.getAll(req.params.id, null)
                 ]);
             }
             else return Promise.reject('Error 404: Not Found');
         })
-        .then(([data, category, links, comments]) => { 
+        .then(([data, category, links, comments, subscriptions]) => { 
             let promises = [];
             for (let c of comments)
             {
@@ -183,6 +185,10 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), accessCh
             for (let l of links)
             {
                 promises.push(link.delete(l._id));    
+            }
+            for (let s of subscriptions)
+            {
+                promises.push(subscription.delete(s._id));    
             }
             return Promise.all(promises)
         })

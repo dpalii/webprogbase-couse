@@ -188,7 +188,7 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), accessCh
             }
             for (let s of subscriptions)
             {
-                promises.push(subscription.delete(s._id));    
+                promises.push(subscription.delete(s.chatId, s.productId));    
             }
             return Promise.all(promises)
         })

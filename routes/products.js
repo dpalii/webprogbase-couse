@@ -34,7 +34,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), function(req, 
     if (req.query.category) {
         let category = req.query.category;
         Promise.all([
-            product.getAll(limit, offset, null, category),
+            product.getAll(limit, offset, null, 'false', category),
             product.count(null, category)
         ])
             .then(([products, count]) => res.status(200).json({ user: req.user, data: { products: products, count: count } }))

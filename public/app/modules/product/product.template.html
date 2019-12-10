@@ -45,7 +45,8 @@
         <form name="comment" ng-submit="comment.$valid && postComment()" novalidate>
             <div class="input-group">
                 <input type="text" ng-class="{ 'has-error': comment.$submitted && comment.newcomment.$invalid }"
-                    name="newcomment" class="form-control" ng-model="newcomment" placeholder="Оставте отзыв о товаре" required>
+                    name="newcomment" class="form-control" ng-model="newcomment" placeholder="Оставте отзыв о товаре"
+                    required>
                 <div class="input-group-append">
                     <input class="btn btn-primary" type="submit" value="Опубликовать отзыв">
                 </div>
@@ -56,18 +57,22 @@
         </form>
         <div class="row">
             <div class="col">
-                <table class="table mt-2 table-responsive-sm">
-                    <tbody ng-repeat="comment in comments">
-                        <tr>
-                            <td>
-                                <b>Автор: </b><a href="#!user/{{comment.author._id}}">{{comment.author.fullname}}</a> |
-                                <button type="button" ng-click="remove(comment._id)"
-                                    class="btn btn-danger btn-sm my-2">Удалить</button>
-                                <textarea class="form-control" readonly>{{comment.content}}</textarea>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table mt-2">
+                        <tbody ng-repeat="comment in comments">
+                            <tr>
+                                <td>
+                                    <b>Автор: </b><a
+                                        href="#!user/{{comment.author._id}}">{{comment.author.fullname}}</a> |
+                                    <button type="button" ng-click="remove(comment._id)"
+                                        class="btn btn-danger btn-sm my-2">Удалить</button>
+                                    <textarea class="form-control" readonly>{{comment.content}}</textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
                 <nav ng-show="pages > 0">
                     <ul class="pagination justify-content-center">
                         <li class="page-item" id="prev" ng-show="page > 1" ng-click="prev()">

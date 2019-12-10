@@ -17,25 +17,29 @@
             {{totalItems}}.</span>
         <div class="alert alert-danger" ng-if="totalItems == 0">Ничего не найдено.</div>
     </form>
-    <table class="table table-responsive-sm" id="productList" ng-show="pages > 0">
-        <tbody ng-repeat="product in products">
-            <tr>
-                <td class="fit block"><img class="img-thumbnail img-fluid imglist " src="{{product.prodpic}}"" alt="
-                        {{product.prodname}}" /></td>
-                <td class="block"><a href="#!product/{{product._id}}">
-                        <h3>{{product.prodname}}</h3>
-                    </a>
-                    <div class="input-group">
-                        <button class="btn btn-outline-success btn-lg" id="search" type="button"
-                            ng-click="addToCart(product)"><i class="material-icons align-top">shopping_cart</i><span
-                                class="align-top">
-                                {{product.price}}
-                                грн</span></button>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table" id="productList" ng-show="pages > 0">
+            <tbody ng-repeat="product in products">
+                <tr>
+                    <td class="fit block"><img class="img-thumbnail img-fluid imglist " src="{{product.prodpic}}"" alt="
+                            {{product.prodname}}" /></td>
+                    <td class="block"><a href="#!product/{{product._id}}">
+                            <h3>{{product.prodname}}</h3>
+                        </a>
+                        <div class="input-group">
+                            <button class="btn btn-outline-success btn-lg" id="search" type="button"
+                                ng-click="addToCart(product)"><i class="material-icons align-top">shopping_cart</i><span
+                                    class="align-top">
+                                    {{product.price}}
+                                    грн</span></button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
     <div class="toast toast-custom m-3" id="purchaseNotification" data-autohide="false">
         <div class="toast-header">
             <strong class="mr-auto"><i class="fa fa-grav"></i>{{lastPurchase}} added to cart</strong>

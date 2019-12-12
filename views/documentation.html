@@ -9,6 +9,8 @@
 </head>
 <body>
     <h3>Version: v1</h3>
+    <h3>Response format:</h3>
+    <img src="/images/response.png">
     <h3>Resources</h3>
     <b>Users:</b>
     <ul>
@@ -36,7 +38,8 @@
             <ul>
                 <li>limit: desired amount of entries</li>
                 <li>offset: amount of entries you want to skip</li>
-                <li>searchword: filter applied to products' names</li>
+                <li>searchword: filter applied to products' names OR category: get products that belong to certain category</li>
+                <li>inDesc (if searchword is specified): search in products' description</li>
             </ul>
         </li>
         <li>GET /api/v1/products/{id} - returns JSON object that contains product with id = {id}. </li>
@@ -50,7 +53,7 @@
             </ul>
         </li>
         <li>PUT /api/v1/products/{id} - update product with id = {id}. Returns updated usproducter. Pass in 'modification' object with data.</li>
-        <li>DELETE /api/v1/products/{id} - delete usproducter with id = {id}. Returns deleted product.</li>
+        <li>DELETE /api/v1/products/{id} - delete product with id = {id}. Returns deleted product.</li>
     </ul>
     <b>Categories:</b>
     <ul>
@@ -70,8 +73,60 @@
         <li>PUT /api/v1/categories/{id} - update category with id = {id}. Returns updated category. Pass in 'modification' object with data.</li>
         <li>DELETE /api/v1/categories/{id} - delete category with id = {id}. Returns deleted category.</li>
     </ul>
+    <b>Comments:</b>
+    <ul>
+        <li>GET /api/v1/comments - returns paginated JSON array of comments. URL queries: 
+            <ul>
+                <li>limit: desired amount of entries</li>
+                <li>offset: amount of entries you want to skip</li>
+                <li>id: ID of product you want to get comments for</li>
+            </ul>
+        </li>
+        <li>POST /api/v1/comments - create new comment. Returns created comment. Reqires such input:
+            <ul>
+                <li>content</li>     
+                <li>product - ID of product you want to create comment for</li>             
+            </ul>
+        </li>
+        <li>DELETE /api/v1/comments/{id} - delete comment with id = {id}. Returns deleted comment.</li>
+    </ul>
+    <b>Links:</b>
+    <ul>
+        <li>GET /api/v1/links - returns paginated JSON array of products in user's cart. URL queries: 
+            <ul>
+                <li>limit: desired amount of entries</li>
+                <li>offset: amount of entries you want to skip</li>
+            </ul>
+        </li>
+        <li>POST /api/v1/links - create new link. Returns created link. Reqires such input:
+            <ul>   
+                <li>productId - ID of product you want to put in your cart</li>             
+            </ul>
+        </li>
+        <li>DELETE /api/v1/links/{id} - remove product with id = {id} from your cart. Returns deleted link.</li>
+    </ul>
+    <b>Subscriptions:</b>
+    <ul>
+        <li>GET /api/v1/subscribtions/{id} - returns user's subscription on product with id = {id}, if exists</li>
+        <li>POST /api/v1/subscribtions - subscribe to product. Returns created subscription. Reqires such input:
+            <ul>   
+                <li>productId - ID of product you want to subscribe to</li>             
+            </ul>
+        </li>
+        <li>DELETE /api/v1/subscribtions/{id} - unsubscribe from product with id = {id}. Returns deleted subscription.</li>
+    </ul>
+    <b>Auth:</b>
+    <ul>
+        <li>POST /api/v1/auth - returns authorisation token. Requires such input: 
+            <ul>
+                <li>username</li>
+                <li>password</li>
+            </ul>
+        </li>
+    </ul>
+
     <h3>Authorization</h3>
-    <p>This API uses Basic authorization. To access data you should send authorization data with each request. All requests return current user in <b>user</b> field.</p>
+    <p>This API uses JWT authorization. To access data you should send your token each request. All requests return current user in <b>user</b> field.</p>
     <h3>Errors</h3>
     <p>Errors are sent in response body in JSON format, with error message stored in <b>err</b> field. Such error codes are possible:</p>
     <ul>

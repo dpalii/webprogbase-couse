@@ -69,7 +69,7 @@
               <input type="text" class="form-control" name="username" ng-model="username" placeholder="Введите логин"
                 required>
               <div ng-show="form.$submitted && form.username.$error.required" class="help-block">
-                <small class="text-muted text-danger text-small">Username is required</small>
+                <small class="text-muted text-danger text-small">Необходимо ввести логин</small>
               </div>
             </div>
             <div class="form-group" ng-class="{ 'has-error': form.$submitted && form.password.$invalid }">
@@ -77,7 +77,7 @@
               <input type="password" class="form-control" name="password" ng-model="password"
                 placeholder="Введите пароль" required>
               <div ng-show="form.$submitted && form.password.$error.required" class="help-block">
-                <small class="text-muted text-danger text-small">Password is required</small>
+                <small class="text-muted text-danger text-small">Необходимо ввести пароль</small>
               </div>
             </div>
             <div ng-if="logErr" class="alert alert-danger">{{logErr}}</div>
@@ -106,7 +106,7 @@
               <input type="text" class="form-control" ng-model="username" name="username" placeholder="Введите логин"
                 required>
               <div ng-show="regForm.$submitted && regForm.username.$error.required" class="help-block">
-                <small class="text-muted text-danger text-small">Username is required</small>
+                <small class="text-muted text-danger text-small">Необходимо ввести логин</small>
               </div>
             </div>
             <div class="form-group" ng-class="{ 'has-error': regForm.$submitted && regForm.password.$invalid }">
@@ -114,7 +114,7 @@
               <input type="password" class="form-control" ng-model="password" name="password"
                 placeholder="Введите пароль" required>
               <div ng-show="regForm.$submitted && regForm.password.$error.required" class="help-block">
-                <small class="text-muted text-danger text-small">Password is required</small>
+                <small class="text-muted text-danger text-small">Необходимо ввести пароль</small>
               </div>
             </div>
             <div class="form-group" ng-class="{ 'has-error': regForm.$submitted && regForm.confirm.$invalid }">
@@ -122,7 +122,7 @@
               <input type="password" class="form-control" ng-model="confirm" name="confirm"
                 placeholder="Подтвердите пароль" required>
               <div ng-show="regForm.$submitted && form.password.$error.required" class="help-block">
-                <small class="text-muted text-danger text-small">Confirm password</small>
+                <small class="text-muted text-danger text-small">Подтвердите пароль</small>
               </div>
             </div>
             <div ng-if="regErr" class="alert alert-danger">{{regErr}}</div>
@@ -189,7 +189,7 @@
   </div>
   <footer class="footer mt-2">
     <div class="container">
-      <span class="text-muted">Developed by Dmitry Paliy</span>
+      <span class="text-muted">Developed by <a href="https://t.me/dpalii">Dmitry Paliy</a></span>
     </div>
   </footer>
 </body>

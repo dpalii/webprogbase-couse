@@ -14,14 +14,15 @@ angular.
                     $("#loginModal").modal('hide');
                     $scope.username = '';
                     $scope.password = '';
+                    $scope.logErr = '';
                 } else {
-                    $scope.logErr = 'Username or password is incorrect';
+                    $scope.logErr = 'Неправильный логин или пароль';
                 }
             });
         };
         function register() {
-            if ($scope.password.length < 8) $scope.regErr = 'Password should be at least 8 chars long';
-            else if ($scope.password != $scope.confirm) $scope.regErr = 'Passwords do not match';
+            if ($scope.password.length < 8) $scope.regErr = 'Пароль должен состоять как минимум из 8 символов';
+            else if ($scope.password != $scope.confirm) $scope.regErr = 'Пароли не совпадают';
             else AuthenticationService.Register($scope.username, $scope.password, $scope.confirm, function (result, user) {
                 if (result === true) {
                     $scope.user = user.user;
@@ -30,8 +31,9 @@ angular.
                     $scope.username = '';
                     $scope.password = '';
                     $scope.confirm = '';
+                    $scope.regErr = '';
                 } else {
-                    $scope.regErr = 'Username is occupied';
+                    $scope.regErr = 'Логин занят';
                 }
             });
         }

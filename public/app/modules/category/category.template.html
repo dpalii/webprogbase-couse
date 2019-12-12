@@ -73,7 +73,7 @@
                                 ng-model="newprod.prodname" id="prodname" placeholder="Наименование" required>
                         </div>
                         <div ng-show="form.$submitted && form.prodname.$error.required" class="help-block">
-                            <small class="text-muted text-danger text-small">Product name is required</small>
+                            <small class="text-muted text-danger text-small">Необходимо ввести наименование</small>
                         </div>
                         <div class="form-group">
                             <label for="price">Цена</label>
@@ -82,7 +82,7 @@
                                 ng-model="newprod.price" name="price" id="price" placeholder="Цена" required>
                         </div>
                         <div ng-show="form.$submitted && form.price.$error.required" class="help-block">
-                            <small class="text-muted text-danger text-small">Price is required</small>
+                            <small class="text-muted text-danger text-small">Необходимо ввести цену</small>
                         </div>
                         <div class="form-group">
                             <label for="price">Описание</label>
@@ -129,7 +129,7 @@
                                 class="form-control" name="name" ng-model="name" id="name" placeholder="Название"
                                 required>
                             <div ng-show="updateForm.$submitted && updateForm.name.$error.required" class="help-block">
-                                <small class="text-muted text-danger text-small">Name is required</small>
+                                <small class="text-muted text-danger text-small">Необходимо ввести название</small>
                             </div>
                         </div>
                     </div>

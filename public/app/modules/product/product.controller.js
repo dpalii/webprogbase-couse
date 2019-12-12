@@ -21,6 +21,7 @@ angular.
             $http.post('/api/v1/comments/', JSON.stringify({ product: $scope.product._id, content: $scope.newcomment }))
                 .then(data => {
                     setPage(1);
+                    $scope.newcomment = '';
                 })
                 .catch(err => {
                     console.log(err);
@@ -100,6 +101,7 @@ angular.
                 .then(data => {
                     $scope.product = data.data.data;
                     $("#editModal").modal('hide');
+                    $scope.editErr = '';
                 })
                 .catch(err => {
                     $scope.editErr = 'Файл слишком большой';

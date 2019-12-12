@@ -34,7 +34,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), accessCheck.ch
         .then(([users, count]) => res.status(200).json({ user: req.user, data: { users: users, count: count } }))
         .catch(err => res.status(500).json({err: err}));
 });
-router.get('/:id', passport.authenticate('jwt', { session: false }), accessCheck.checkAdmin, function(req, res) {
+router.get('/:id', passport.authenticate('jwt', { session: false }), function(req, res) {
     user.getById(req.params.id)
         .then(data => {
             if (data) 
@@ -90,8 +90,10 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), function(re
     }
     if (req.user._id == req.params.id) {
         if (req.body.bio && req.body.bio.length > 0) newuser.bio = req.body.bio;
+        else newuser.bio = '';
         if (req.body.fullname && req.body.fullname.length > 0) newuser.fullname = req.body.fullname;
         if (req.body.tgTag && req.body.tgTag.length > 0) newuser.tgTag = req.body.tgTag;
+        else newuser.tgTag = '';
             if (!req.file) 
             {
                 user.update(newuser)

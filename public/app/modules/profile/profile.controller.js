@@ -5,11 +5,6 @@ angular.
     }).
     controller('profileController', ['$scope', '$http', function ($scope, $http) {
         $scope.user = JSON.parse(localStorage.getItem('user'));
-        $scope.updUser = {
-            bio: $scope.user.bio,
-            fullname: $scope.user.fullname,
-            tgTag: $scope.user.tgTag
-        }
         $scope.limit = 5;
         $scope.offset = 0;
         $scope.page = 1;
@@ -20,7 +15,7 @@ angular.
         $scope.fakepath = 'Выберите фото...';
         $scope.update = upd;
         $scope.delete = del;
-        $scope.removeFromCart = function(id) {
+        $scope.removeFromCart = function (id) {
             $http.delete(`/api/v1/links/${id}`, {
                 transformRequest: angular.identity,
                 headers: {
@@ -53,7 +48,10 @@ angular.
         };
         function upd() {
             var fd = new FormData();
-            for(prop in $scope.updUser) fd.append(prop, $scope.updUser[prop]);
+            for (prop in $scope.updUser) {
+                if ($scope.updUser[prop]) fd.append(prop, $scope.updUser[prop]);
+                else fd.append(prop, '');
+            };
             fd.append('avatar', $scope.avatar);
             $http.put(`/api/v1/users/${$scope.user._id}`, fd, {
                 transformRequest: angular.identity,
@@ -63,6 +61,7 @@ angular.
             })
                 .then(data => {
                     $scope.user = data.data.data;
+                    $scope.$parent.$parent.$parent.user = $scope.user;
                     localStorage.setItem('user', JSON.stringify(data.data.data));
                     $("#editModal").modal('hide');
                 })

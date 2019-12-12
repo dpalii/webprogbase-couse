@@ -45,7 +45,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), function(req, 
         if (req.query.searchword) searchword = req.query.searchword;
         Promise.all([
             product.getAll(limit, offset, searchword, inDesc, null),
-            product.count(searchword)
+            product.count(searchword, null, inDesc)
         ])
             .then(([products, count]) => res.status(200).json({ user: req.user, data: { products: products, count: count } }))
             .catch(err => res.status(500).json({err: err}));
@@ -178,6 +178,7 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), accessCh
         })
         .then(([data, category, links, comments, subscriptions]) => { 
             let promises = [];
+            bot.sendToSubscribers(`${data.prodname} был удалён!`, data._id);
             for (let c of comments)
             {
                 promises.push(comment.delete(c._id));    
@@ -193,7 +194,9 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), accessCh
             return Promise.all(promises)
         })
         .then(() => product.delete(req.params.id))
-        .then(data => res.status(200).json({user: req.user, data: data}))
+        .then(data => {
+            res.status(200).json({user: req.user, data: data})
+        })
         .catch(err => {
             if (err == 'Error 404: Not Found') res.status(404).json({err: err});
             else res.status(500).json({err: err});

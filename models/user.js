@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema({
     fullname: { type: String, required: true },
     registeredAt: { type: String, required: true },
     avaUrl: { type: String, required: true },
-    isDeactivated: { type: Boolean, required: true },
     bio: { type: String },
     tgTag: { type: String },
     chatId: { type: String }
@@ -50,7 +49,9 @@ class User {
             fullname: 'no name',
             avaUrl: '/images/avatar.jpeg',
             isDeactivated: false,
-            registeredAt: today
+            registeredAt: today,
+            bio: '',
+            tgTag: ''
         }
         return userModel.create(newuser);
     }

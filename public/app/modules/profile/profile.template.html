@@ -73,19 +73,23 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form id="updateForm" class="needs-validation" novalidate>
+        <form id="updateForm" name="updateForm" ng-submit="updateForm.$valid && update()" novalidate>
           <div class="modal-body">
             <div class="form-group">
-              <label for="username">Имя</label>
-              <input type="text" class="form-control" name="fullname" ng-model="updUser.fullname"
-                placeholder="Ваше имя">
+                <label for="fullname">Имя</label>
+                <input type="text" class="form-control"
+                    ng-class="{ 'has-error': updateForm.$submitted && updateForm.fullname.$invalid }" name="fullname"
+                    ng-model="updUser.fullname" id="fullname" placeholder="Ваше имя" required>
+                <div ng-show="updateForm.$submitted && updateForm.fullname.$error.required" class="help-block">
+                    <small class="text-muted text-danger text-small">Необходимо ввести имя</small>
+                </div>
             </div>
             <label for="username">Telegram тег</label>
             <div class="input-group mb-2">
               <div class="input-group-prepend">
                 <div class="input-group-text">@</div>
               </div>
-              <input type="text" class="form-control" name="fullname" ng-model="updUser.tgTag" placeholder="@example">
+              <input type="text" class="form-control" name="tgTag" ng-model="updUser.tgTag" placeholder="example">
             </div>
             <div class="form-group">
               <label for="bio">О себе</label>
@@ -102,7 +106,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Отмена</button>
-            <input type="submit" ng-click="update()" value="Подтвердить" class="btn btn-success"></button>
+            <button type="submit" class="btn btn-success">Подтвердить</button>
           </div>
         </form>
       </div>

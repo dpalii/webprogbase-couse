@@ -110,13 +110,13 @@
         <div class="toast" id="purchaseNotification" role="alert" aria-live="assertive" aria-atomic="true"
             data-autohide="false">
             <div class="toast-header">
-                <strong class="mr-auto"><i class="fa fa-grav"></i>{{lastPurchase}} added to cart</strong>
+                <strong class="mr-auto"><i class="fa fa-grav"></i>{{lastPurchase}} добавлен в корзину</strong>
                 <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="toast-body">
-                <div>Proceed to your <a href="#!me">profile</a> to complete purchase</div>
+                <div>Перейдите в <a href="#!me">профиль</a>, чтобы завершить покупку</div>
             </div>
         </div>
     </div>
@@ -139,7 +139,7 @@
                                 ng-class="{ 'has-error': form.$submitted && form.prodname.$invalid }" name="prodname"
                                 ng-model="updProduct.prodname" id="prodname" placeholder="Наименование" required>
                             <div ng-show="form.$submitted && form.prodname.$error.required" class="help-block">
-                                <small class="text-muted text-danger text-small">Product name is required</small>
+                                <small class="text-muted text-danger text-small">Необходимо ввести наименование</small>
                             </div>
                         </div>
                         <div class="form-group">
@@ -148,7 +148,7 @@
                                 ng-class="{ 'has-error': form.$submitted && form.price.$invalid }" min="0"
                                 ng-model="updProduct.price" name="price" id="price" placeholder="Цена" required>
                             <div ng-show="form.$submitted && form.price.$error.required" class="help-block">
-                                <small class="text-muted text-danger text-small">Price is required</small>
+                                <small class="text-muted text-danger text-small">Необходимо ввести цену</small>
                             </div>
                         </div>
                         <div class="form-group">

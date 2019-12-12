@@ -35,8 +35,9 @@ class Product {
         if (category) return productModel.find({ category: category });
         return undefined;
     }
-    static count(searchword, category) {
+    static count(searchword, category, inDesc) {
         if (category) return productModel.countDocuments({ category: category });
+        if (inDesc === 'true') return productModel.countDocuments({ $or: [{ prodname: { $regex: searchword, $options: 'i' } }, { desc: { $regex: searchword, $options: 'i' } }] });
         return productModel.countDocuments({ prodname: { $regex: searchword, $options: 'i' } }); 
     }
     static create(x) {

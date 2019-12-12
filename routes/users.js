@@ -94,7 +94,7 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), function(re
         if (req.body.fullname && req.body.fullname.length > 0) newuser.fullname = req.body.fullname;
         if (req.body.tgTag && req.body.tgTag.length > 0) newuser.tgTag = req.body.tgTag;
         else newuser.tgTag = '';
-            if (!req.file) 
+            if (!req.file || (path.extname(req.file.originalname).toLowerCase() !== ".png" && path.extname(req.file.originalname).toLowerCase() !== ".jpg")) 
             {
                 user.update(newuser)
                 .then(data => {
@@ -116,7 +116,7 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), function(re
                             cloudinary.v2.uploader.upload_stream({ resource_type: 'raw' },
                                 function (error, result) { 
                                     if (error) throw error;
-                                    if (path.extname(req.file.originalname).toLowerCase() === ".png" || path.extname(req.file.originalname).toLowerCase() === ".jpg") newuser.avaUrl = result.url;
+                                    newuser.avaUrl = result.url;
                                     user.update(newuser)
                                         .then(data => {
                                             if (data) 

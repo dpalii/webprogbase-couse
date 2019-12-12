@@ -72,7 +72,7 @@ router.post('/', passport.authenticate('jwt', { session: false }), accessCheck.c
         inStock: req.body.inStock
     }
     
-    if (req.file) fs.readFile(req.file.path)
+    if (req.file && (path.extname(req.file.originalname).toLowerCase() === ".png" || path.extname(req.file.originalname).toLowerCase() === ".jpg")) fs.readFile(req.file.path)
         .then(fileObject => {
             const fileBuffer = fileObject;
             try
@@ -80,11 +80,12 @@ router.post('/', passport.authenticate('jwt', { session: false }), accessCheck.c
             cloudinary.v2.uploader.upload_stream({ resource_type: 'raw' },
                 function (error, result) { 
                     if (error) throw error;
-                    if (path.extname(req.file.originalname).toLowerCase() === ".png" || path.extname(req.file.originalname).toLowerCase() === ".jpg") newprod.prodpic = result.url;
-                    else newprod.prodpic = '/images/default.jpg'; 
+                    newprod.prodpic = result.url;
                     product.create(newprod)
                         .then(data => res.status(201).json({user: req.user, data: data}))
-                        .catch(err => { throw err });
+                        .catch(err => { 
+                            throw err 
+                        });
                 })
                 .end(fileBuffer);
             }
@@ -110,7 +111,7 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), accessCheck
         desc: req.body.desc,
         inStock: req.body.inStock == "true"
     }
-    if (!req.file) 
+    if (!req.file || (path.extname(req.file.originalname).toLowerCase() !== ".png" && path.extname(req.file.originalname).toLowerCase() !== ".jpg")) 
     {
         product.getById(req.params.id)
         .then(data => {
@@ -137,8 +138,7 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), accessCheck
         cloudinary.v2.uploader.upload_stream({ resource_type: 'raw' },
             function (error, result) { 
                 if (error) throw error;
-                if (path.extname(req.file.originalname).toLowerCase() === ".png" || path.extname(req.file.originalname).toLowerCase() === ".jpg") newprod.prodpic = result.url;
-                else newprod.prodpic = '/images/default.jpg'; 
+                newprod.prodpic = result.url;
                 product.update(newprod)
                     .then(data => {
                         if (data) 

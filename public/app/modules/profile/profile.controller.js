@@ -5,6 +5,11 @@ angular.
     }).
     controller('profileController', ['$scope', '$http', function ($scope, $http) {
         $scope.user = JSON.parse(localStorage.getItem('user'));
+        $scope.updUser = {
+            bio: $scope.user.bio,
+            fullname: $scope.user.fullname,
+            tgTag: $scope.user.tgTag,
+        }
         $scope.limit = 5;
         $scope.offset = 0;
         $scope.page = 1;
